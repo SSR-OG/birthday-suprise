@@ -1,400 +1,2042 @@
-<script>
-document.addEventListener("DOMContentLoaded", function () {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
 
-    // =========================
-    // CONFIG
-    // =========================
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    const CONFIG = {
-        name: "ANJALI",
-        secretMessage:
-            "You are genuinely special, and I hope this new year of your life gives you countless reasons to smile. 💗"
-    };
+    <meta
+        name="description"
+        content="A special birthday surprise"
+    >
 
-    let currentPage = 1;
-    const totalPages = 7;
+    <title>Happy Birthday, Anjali 💗</title>
 
-    const bgMusic = document.getElementById("bgMusic");
-    const musicBtn = document.getElementById("musicBtn");
-    const musicText = document.getElementById("musicText");
+    <style>
+        /* =====================================================
+           RESET
+        ===================================================== */
 
-    let isPlaying = false;
-
-
-    // =========================
-    // PERSONALIZATION
-    // =========================
-
-    const nameDisplay = document.getElementById("nameDisplay");
-    const nameInline = document.getElementById("nameInline");
-    const letterName = document.getElementById("letterName");
-    const finalName = document.getElementById("finalName");
-
-    if (nameDisplay) nameDisplay.textContent = CONFIG.name;
-    if (nameInline) nameInline.textContent = CONFIG.name;
-    if (letterName) letterName.textContent = CONFIG.name;
-    if (finalName) finalName.textContent = CONFIG.name;
-
-
-    // =========================
-    // PAGE NAVIGATION
-    // =========================
-
-    function showPage(number) {
-
-        if (number < 1 || number > totalPages) {
-            return;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        const pages = document.querySelectorAll(".page");
-        const dots = document.querySelectorAll(".dot");
-
-        pages.forEach(page => {
-            page.classList.remove("active");
-        });
-
-        const targetPage = document.getElementById("page" + number);
-
-        if (targetPage) {
-            targetPage.classList.add("active");
+        html {
+            scroll-behavior: smooth;
         }
 
-        dots.forEach((dot, index) => {
-            dot.classList.toggle("active", index === number - 1);
-        });
+        body {
+            min-height: 100vh;
+            font-family:
+                "Segoe UI",
+                Tahoma,
+                Geneva,
+                Verdana,
+                sans-serif;
 
-        currentPage = number;
+            color: #5a2945;
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+            background:
+                radial-gradient(
+                    circle at top,
+                    #fff7fb 0%,
+                    #ffe8f1 45%,
+                    #ffd6e5 100%
+                );
 
-        createHearts(5);
-    }
-
-
-    function nextPage() {
-        if (currentPage < totalPages) {
-            showPage(currentPage + 1);
-        }
-    }
-
-
-    // Make functions available to buttons
-    window.nextPage = nextPage;
-
-
-    // =========================
-    // OPEN SURPRISE
-    // =========================
-
-    window.startSurprise = function () {
-
-        console.log("Open surprise clicked");
-
-        // Go to page 2 FIRST.
-        // This guarantees navigation even if audio fails.
-        nextPage();
-
-        // Then try to start the music.
-        playMusic();
-    };
-
-
-    // =========================
-    // MUSIC
-    // =========================
-
-    function playMusic() {
-
-        if (!bgMusic) {
-            console.error("Audio element was not found.");
-            return;
+            overflow-x: hidden;
         }
 
-        bgMusic.play()
-            .then(() => {
-
-                isPlaying = true;
-
-                if (musicText) {
-                    musicText.textContent = "Pause Song";
-                }
-
-                if (musicBtn) {
-                    musicBtn.classList.add("playing");
-                }
-
-                console.log("Music started.");
-
-            })
-            .catch(error => {
-
-                isPlaying = false;
-
-                console.error("Music could not be played:", error);
-
-                if (musicText) {
-                    musicText.textContent = "Play Song";
-                }
-
-                // Do not use alert here.
-                // The website still works even if the music file is missing.
-            });
-    }
-
-
-    function pauseMusic() {
-
-        if (!bgMusic) return;
-
-        bgMusic.pause();
-
-        isPlaying = false;
-
-        if (musicText) {
-            musicText.textContent = "Play Song";
+        button {
+            font: inherit;
         }
 
-        if (musicBtn) {
-            musicBtn.classList.remove("playing");
-        }
-    }
 
+        /* =====================================================
+           BACKGROUND DECORATION
+        ===================================================== */
 
-    window.toggleMusic = function () {
-
-        console.log("Music button clicked");
-
-        if (!bgMusic) {
-            console.error("bgMusic element not found.");
-            return;
+        .background-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: -1;
         }
 
-        if (isPlaying) {
-            pauseMusic();
-        } else {
-            playMusic();
+        .glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.35;
         }
-    };
+
+        .glow.one {
+            top: -100px;
+            left: -100px;
+            background: #ff9fc5;
+        }
+
+        .glow.two {
+            right: -100px;
+            bottom: -100px;
+            background: #c8a5ff;
+        }
 
 
-    // =========================
-    // CANDLE
-    // =========================
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
 
-    const candle = document.getElementById("candle");
-    const wishText = document.getElementById("wishText");
+        .app {
+            width: 100%;
+            min-height: 100vh;
 
-    if (candle) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-        candle.addEventListener("click", function () {
+            padding: 30px 15px;
+        }
 
-            this.classList.toggle("off");
+        .card {
+            width: min(900px, 100%);
+            min-height: 650px;
 
-            if (this.classList.contains("off")) {
+            position: relative;
 
-                if (wishText) {
-                    wishText.textContent =
-                        "Wish made. ✨ May it come true.";
-                }
+            background: rgba(255, 255, 255, 0.72);
 
-                createHearts(20);
+            border: 1px solid rgba(255, 255, 255, 0.9);
 
-            } else {
+            border-radius: 30px;
 
-                if (wishText) {
-                    wishText.textContent =
-                        "Tap the candle to make your wish. 🕯️";
-                }
+            box-shadow:
+                0 25px 70px rgba(126, 52, 87, 0.18);
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           PAGE SYSTEM
+        ===================================================== */
+
+        .page {
+            display: none;
+
+            min-height: 650px;
+
+            padding: 55px 45px;
+
+            text-align: center;
+
+            animation: pageIn 0.55s ease;
+        }
+
+        .page.active {
+            display: flex;
+
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes pageIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
             }
-        });
-    }
 
-
-    // =========================
-    // GIFT
-    // =========================
-
-    const gift = document.getElementById("gift");
-    const secret = document.getElementById("secret");
-
-    if (gift && secret) {
-
-        gift.addEventListener("click", function () {
-
-            secret.classList.toggle("show");
-
-            if (secret.classList.contains("show")) {
-
-                const secretParagraph = secret.querySelector("p");
-
-                if (secretParagraph) {
-                    secretParagraph.textContent =
-                        CONFIG.secretMessage;
-                }
-
-                createHearts(25);
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
             }
-        });
-    }
-
-
-    // =========================
-    // CELEBRATE
-    // =========================
-
-    window.celebrate = function () {
-
-        createHearts(40);
-
-        const celebrateText =
-            document.getElementById("celebrateText");
-
-        if (celebrateText) {
-
-            celebrateText.textContent =
-                `Yay! Wishing you the happiest birthday ever, ${CONFIG.name}! 💖🎉`;
         }
-    };
 
 
-    // =========================
-    // FLOATING HEARTS
-    // =========================
+        /* =====================================================
+           TYPOGRAPHY
+        ===================================================== */
 
-    function createHearts(amount = 10) {
+        .small-title {
+            font-size: 0.95rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #b85a81;
+            margin-bottom: 18px;
+            font-weight: 700;
+        }
 
-        for (let i = 0; i < amount; i++) {
+        h1 {
+            font-family: Georgia, serif;
 
-            setTimeout(() => {
+            font-size: clamp(3rem, 9vw, 6.5rem);
 
-                const heart = document.createElement("div");
+            line-height: 0.95;
 
-                heart.className = "heart";
+            color: #b92f67;
 
-                const symbols = [
-                    "💗",
-                    "💕",
-                    "💖",
-                    "💘",
-                    "🌸",
-                    "✨"
+            margin-bottom: 20px;
+
+            text-shadow:
+                0 8px 25px rgba(185, 47, 103, 0.18);
+        }
+
+        h2 {
+            font-family: Georgia, serif;
+
+            font-size: clamp(2rem, 6vw, 3.8rem);
+
+            color: #a83263;
+
+            margin-bottom: 20px;
+        }
+
+        h3 {
+            font-family: Georgia, serif;
+
+            font-size: 2rem;
+
+            color: #a83263;
+
+            margin-bottom: 15px;
+        }
+
+        p {
+            max-width: 650px;
+
+            font-size: 1.08rem;
+
+            line-height: 1.8;
+
+            color: #70445b;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =====================================================
+           DECORATIVE FLOWER
+        ===================================================== */
+
+        .flower {
+            font-size: 4rem;
+
+            margin-bottom: 20px;
+
+            animation:
+                floatFlower 3s ease-in-out infinite;
+        }
+
+        @keyframes floatFlower {
+            0%,
+            100% {
+                transform: translateY(0) rotate(-4deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(4deg);
+            }
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .button-row {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            justify-content: center;
+
+            gap: 14px;
+
+            margin-top: 25px;
+        }
+
+        .btn {
+            border: none;
+
+            padding: 14px 24px;
+
+            border-radius: 999px;
+
+            cursor: pointer;
+
+            font-weight: 700;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #e84f88,
+                    #b72e68
+                );
+
+            box-shadow:
+                0 10px 25px rgba(183, 46, 104, 0.25);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease,
+                filter 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 15px 30px rgba(183, 46, 104, 0.3);
+
+            filter: brightness(1.05);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn.secondary {
+            color: #a83263;
+
+            background: white;
+
+            border: 1px solid #f0b6ca;
+
+            box-shadow:
+                0 8px 20px rgba(120, 45, 80, 0.1);
+        }
+
+
+        /* =====================================================
+           MUSIC BUTTON
+        ===================================================== */
+
+        .music-control {
+            position: fixed;
+
+            top: 20px;
+            right: 20px;
+
+            z-index: 100;
+
+            border: none;
+
+            padding: 12px 18px;
+
+            border-radius: 999px;
+
+            color: #9c2f5f;
+
+            background: rgba(255, 255, 255, 0.85);
+
+            box-shadow:
+                0 8px 25px rgba(100, 40, 70, 0.15);
+
+            cursor: pointer;
+
+            backdrop-filter: blur(10px);
+
+            transition: 0.2s ease;
+        }
+
+        .music-control:hover {
+            transform: translateY(-2px);
+        }
+
+        .music-control.playing {
+            background: #ffe1ed;
+        }
+
+
+        /* =====================================================
+           PROGRESS DOTS
+        ===================================================== */
+
+        .progress {
+            position: absolute;
+
+            left: 50%;
+
+            bottom: 18px;
+
+            transform: translateX(-50%);
+
+            display: flex;
+
+            gap: 8px;
+
+            z-index: 20;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+
+            border-radius: 50%;
+
+            background: #e6a6bc;
+
+            transition: 0.25s ease;
+        }
+
+        .dot.active {
+            width: 25px;
+
+            border-radius: 999px;
+
+            background: #c93670;
+        }
+
+
+        /* =====================================================
+           CANDLE
+        ===================================================== */
+
+        .candle-area {
+            margin: 30px 0;
+        }
+
+        .candle {
+            position: relative;
+
+            width: 70px;
+            height: 130px;
+
+            margin: auto;
+
+            border-radius:
+                10px 10px 7px 7px;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffd4df,
+                    #fff1f5,
+                    #f8b8ca
+                );
+
+            box-shadow:
+                0 15px 30px rgba(120, 50, 80, 0.15);
+        }
+
+        .candle::before {
+            content: "";
+
+            position: absolute;
+
+            top: -28px;
+            left: 50%;
+
+            width: 20px;
+            height: 32px;
+
+            transform: translateX(-50%);
+
+            background:
+                radial-gradient(
+                    ellipse at center bottom,
+                    #fff176 0%,
+                    #ffb300 45%,
+                    #ff7043 70%,
+                    transparent 72%
+                );
+
+            filter:
+                drop-shadow(
+                    0 0 10px #ffb74d
+                );
+
+            transition: 0.3s ease;
+        }
+
+        .candle.off::before {
+            opacity: 0;
+
+            transform:
+                translateX(-50%)
+                scale(0.3);
+        }
+
+        .candle::after {
+            content: "";
+
+            position: absolute;
+
+            top: -4px;
+            left: 50%;
+
+            width: 3px;
+            height: 12px;
+
+            transform: translateX(-50%);
+
+            background: #593c3c;
+        }
+
+
+        /* =====================================================
+           GIFT
+        ===================================================== */
+
+        .gift {
+            position: relative;
+
+            width: 150px;
+            height: 120px;
+
+            margin: 25px auto;
+
+            cursor: pointer;
+
+            transition: transform 0.25s ease;
+        }
+
+        .gift:hover {
+            transform: translateY(-8px) rotate(-2deg);
+        }
+
+        .gift-box {
+            position: absolute;
+
+            left: 10px;
+            right: 10px;
+            bottom: 0;
+
+            height: 90px;
+
+            border-radius: 8px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ef6394,
+                    #c92f6d
+                );
+        }
+
+        .gift-lid {
+            position: absolute;
+
+            left: 0;
+            right: 0;
+            top: 15px;
+
+            height: 30px;
+
+            border-radius: 7px;
+
+            background: #e95187;
+
+            z-index: 2;
+        }
+
+        .gift-ribbon-v {
+            position: absolute;
+
+            top: 0;
+            bottom: 0;
+
+            left: 50%;
+
+            width: 24px;
+
+            transform: translateX(-50%);
+
+            background: #ffd56e;
+
+            z-index: 3;
+        }
+
+        .gift-ribbon-h {
+            position: absolute;
+
+            left: 0;
+            right: 0;
+
+            top: 26px;
+
+            height: 18px;
+
+            background: #ffd56e;
+
+            z-index: 4;
+        }
+
+        .bow {
+            position: absolute;
+
+            top: -5px;
+            left: 50%;
+
+            transform: translateX(-50%);
+
+            z-index: 5;
+
+            font-size: 50px;
+        }
+
+
+        /* =====================================================
+           SECRET MESSAGE
+        ===================================================== */
+
+        .secret {
+            max-width: 600px;
+
+            padding: 0 25px;
+
+            max-height: 0;
+
+            overflow: hidden;
+
+            opacity: 0;
+
+            transition:
+                max-height 0.6s ease,
+                opacity 0.5s ease,
+                padding 0.5s ease;
+        }
+
+        .secret.show {
+            max-height: 300px;
+
+            opacity: 1;
+
+            padding: 25px;
+        }
+
+        .secret-box {
+            padding: 25px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff0f6,
+                    #ffe2ed
+                );
+
+            border: 1px solid #f6bdd0;
+
+            box-shadow:
+                0 12px 30px rgba(140, 50, 90, 0.1);
+        }
+
+
+        /* =====================================================
+           LETTER
+        ===================================================== */
+
+        .letter {
+            max-width: 650px;
+
+            padding: 35px;
+
+            text-align: left;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fffdf8,
+                    #fff7fb
+                );
+
+            box-shadow:
+                0 15px 40px rgba(100, 50, 70, 0.12);
+
+            border: 1px solid #f4dce5;
+        }
+
+        .letter p {
+            font-family: Georgia, serif;
+
+            color: #624653;
+        }
+
+        .signature {
+            text-align: right;
+
+            font-family: "Brush Script MT", cursive;
+
+            font-size: 2rem;
+
+            color: #b62f67;
+        }
+
+
+        /* =====================================================
+           HEARTS
+        ===================================================== */
+
+        .heart {
+            position: fixed;
+
+            bottom: -40px;
+
+            pointer-events: none;
+
+            z-index: 999;
+
+            animation:
+                heartFloat linear forwards;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                opacity: 0;
+
+                transform:
+                    translateY(0)
+                    rotate(0deg)
+                    scale(0.7);
+            }
+
+            15% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+
+                transform:
+                    translateY(-110vh)
+                    rotate(25deg)
+                    scale(1.2);
+            }
+        }
+
+
+        /* =====================================================
+           FINAL PAGE
+        ===================================================== */
+
+        .final-message {
+            font-family: Georgia, serif;
+
+            font-size: clamp(
+                1.8rem,
+                5vw,
+                3.5rem
+            );
+
+            color: #c02e6a;
+
+            margin: 20px 0;
+        }
+
+
+        /* =====================================================
+           ACCESSIBILITY
+        ===================================================== */
+
+        button:focus-visible,
+        .candle:focus-visible,
+        .gift:focus-visible {
+            outline: 3px solid #9fcaef;
+            outline-offset: 4px;
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 650px) {
+
+            .app {
+                padding: 12px;
+            }
+
+            .card {
+                border-radius: 22px;
+            }
+
+            .page {
+                min-height: 650px;
+
+                padding:
+                    45px 20px
+                    60px;
+            }
+
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            h2 {
+                font-size: 2.3rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
+
+            .music-control {
+                top: 10px;
+                right: 10px;
+
+                padding: 10px 14px;
+
+                font-size: 0.85rem;
+            }
+
+            .letter {
+                padding: 25px;
+            }
+
+            .button-row {
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
+
+    <div class="background-glow" aria-hidden="true">
+        <div class="glow one"></div>
+        <div class="glow two"></div>
+    </div>
+
+
+    <!-- =====================================================
+         AUDIO
+    ====================================================== -->
+
+    <audio
+        id="bgMusic"
+        loop
+        preload="auto"
+    >
+        <!-- If the file is beside index.html -->
+        <source
+            src="./ishq.mp3"
+            type="audio/mpeg"
+        >
+
+        <!--
+        If your file is inside an audio folder, use:
+
+        <source
+            src="./audio/ishq.mp3"
+            type="audio/mpeg"
+        >
+        -->
+    </audio>
+
+
+    <!-- =====================================================
+         MUSIC BUTTON
+    ====================================================== -->
+
+    <button
+        class="music-control"
+        id="musicBtn"
+        type="button"
+        aria-label="Play or pause background music"
+    >
+        🎵 <span id="musicText">Play Song</span>
+    </button>
+
+
+    <!-- =====================================================
+         APP
+    ====================================================== -->
+
+    <main class="app">
+
+        <section class="card">
+
+
+            <!-- =================================================
+                 PAGE 1
+            ================================================== -->
+
+            <section
+                class="page active"
+                id="page1"
+            >
+
+                <div
+                    class="flower"
+                    aria-hidden="true"
+                >
+                    🌸
+                </div>
+
+                <div class="small-title">
+                    A little surprise for
+                </div>
+
+                <h1 id="nameDisplay">
+                    ANJALI
+                </h1>
+
+                <p>
+                    Someone special deserves something
+                    a little more special. 💗
+                </p>
+
+                <div class="button-row">
+
+                    <button
+                        class="btn"
+                        id="startBtn"
+                        type="button"
+                    >
+                        Open the surprise ✨
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PAGE 2
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page2"
+            >
+
+                <div class="small-title">
+                    Today is all about you
+                </div>
+
+                <h2>
+                    Happy Birthday,
+                    <span id="nameInline">
+                        Anjali
+                    </span>! 🎂
+                </h2>
+
+                <p>
+                    May your day be filled with beautiful
+                    moments, genuine smiles, wonderful
+                    memories and people who make you happy.
+                </p>
+
+                <div class="button-row">
+
+                    <button
+                        class="btn"
+                        id="page2Next"
+                        type="button"
+                    >
+                        There's more 💕
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PAGE 3 - CANDLE
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page3"
+            >
+
+                <div class="small-title">
+                    Make a wish
+                </div>
+
+                <h2>
+                    One little wish 🕯️
+                </h2>
+
+                <p id="wishText">
+                    Tap the candle to make your wish.
+                </p>
+
+                <div class="candle-area">
+
+                    <div
+                        class="candle"
+                        id="candle"
+                        role="button"
+                        tabindex="0"
+                        aria-label="Blow out the birthday candle"
+                    ></div>
+
+                </div>
+
+                <div class="button-row">
+
+                    <button
+                        class="btn"
+                        id="page3Next"
+                        type="button"
+                    >
+                        Continue ✨
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PAGE 4 - GIFT
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page4"
+            >
+
+                <div class="small-title">
+                    Something for you
+                </div>
+
+                <h2>
+                    There's a gift waiting 🎁
+                </h2>
+
+                <p>
+                    Tap the gift to discover what's inside.
+                </p>
+
+                <div
+                    class="gift"
+                    id="gift"
+                    role="button"
+                    tabindex="0"
+                    aria-label="Open birthday gift"
+                >
+
+                    <div class="bow">
+                        🎀
+                    </div>
+
+                    <div class="gift-lid"></div>
+
+                    <div class="gift-box"></div>
+
+                    <div class="gift-ribbon-v"></div>
+
+                    <div class="gift-ribbon-h"></div>
+
+                </div>
+
+
+                <div
+                    class="secret"
+                    id="secret"
+                >
+
+                    <div class="secret-box">
+
+                        <h3>
+                            A little message 💗
+                        </h3>
+
+                        <p>
+                            You are genuinely special,
+                            and I hope this new year of
+                            your life gives you countless
+                            reasons to smile.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="button-row">
+
+                    <button
+                        class="btn"
+                        id="page4Next"
+                        type="button"
+                    >
+                        Keep going 💕
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PAGE 5 - LETTER
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page5"
+            >
+
+                <div class="small-title">
+                    A few words for you
+                </div>
+
+                <h2>
+                    Dear
+                    <span id="letterName">
+                        Anjali
+                    </span> 💌
+                </h2>
+
+                <div class="letter">
+
+                    <p>
+                        I hope you always remember just how
+                        much light you bring into the lives
+                        of the people around you.
+                    </p>
+
+                    <p>
+                        Keep smiling, keep dreaming, and keep
+                        being the wonderful person you are.
+                        There are so many beautiful moments
+                        still waiting for you.
+                    </p>
+
+                    <p>
+                        May this birthday be the beginning of
+                        a year filled with happiness, laughter,
+                        peace and unforgettable memories.
+                    </p>
+
+                    <div class="signature">
+                        With lots of love 💗
+                    </div>
+
+                </div>
+
+                <div class="button-row">
+
+                    <button
+                        class="btn"
+                        id="page5Next"
+                        type="button"
+                    >
+                        Almost there ✨
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PAGE 6 - CELEBRATE
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page6"
+            >
+
+                <div class="flower">
+                    🎉
+                </div>
+
+                <div class="small-title">
+                    Time to celebrate
+                </div>
+
+                <h2>
+                    Make some noise!
+                </h2>
+
+                <p id="celebrateText">
+                    Because birthdays only happen once a year.
+                </p>
+
+                <div class="button-row">
+
+                    <button
+                        class="btn"
+                        id="celebrateBtn"
+                        type="button"
+                    >
+                        Celebrate! 🎉
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PAGE 7 - FINAL
+            ================================================== -->
+
+            <section
+                class="page"
+                id="page7"
+            >
+
+                <div class="flower">
+                    💖
+                </div>
+
+                <div class="small-title">
+                    One last thing
+                </div>
+
+                <div class="final-message">
+                    Happy Birthday,
+                    <span id="finalName">
+                        Anjali
+                    </span>! 🎂
+                </div>
+
+                <p>
+                    May your smile stay bright, your heart
+                    stay happy, and your year become filled
+                    with beautiful memories.
+                </p>
+
+                <div class="button-row">
+
+                    <button
+                        class="btn secondary"
+                        id="restartBtn"
+                        type="button"
+                    >
+                        Start Again ↻
+                    </button>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PROGRESS
+            ================================================== -->
+
+            <div
+                class="progress"
+                aria-label="Birthday surprise progress"
+            >
+
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                /* =================================================
+                   CONFIGURATION
+                ================================================== */
+
+                const CONFIG = {
+
+                    name: "ANJALI",
+
+                    secretMessage:
+                        "You are genuinely special, and I hope this new year of your life gives you countless reasons to smile. 💗"
+
+                };
+
+
+                /* =================================================
+                   STATE
+                ================================================== */
+
+                let currentPage = 1;
+
+                const totalPages = 7;
+
+                let isPlaying = false;
+
+
+                /* =================================================
+                   ELEMENTS
+                ================================================== */
+
+                const bgMusic =
+                    document.getElementById("bgMusic");
+
+                const musicBtn =
+                    document.getElementById("musicBtn");
+
+                const musicText =
+                    document.getElementById("musicText");
+
+                const startBtn =
+                    document.getElementById("startBtn");
+
+                const candle =
+                    document.getElementById("candle");
+
+                const wishText =
+                    document.getElementById("wishText");
+
+                const gift =
+                    document.getElementById("gift");
+
+                const secret =
+                    document.getElementById("secret");
+
+                const celebrateBtn =
+                    document.getElementById("celebrateBtn");
+
+                const celebrateText =
+                    document.getElementById("celebrateText");
+
+                const restartBtn =
+                    document.getElementById("restartBtn");
+
+
+                /* =================================================
+                   PERSONALIZATION
+                ================================================== */
+
+                const nameElements = [
+
+                    document.getElementById(
+                        "nameDisplay"
+                    ),
+
+                    document.getElementById(
+                        "nameInline"
+                    ),
+
+                    document.getElementById(
+                        "letterName"
+                    ),
+
+                    document.getElementById(
+                        "finalName"
+                    )
+
                 ];
 
-                heart.textContent =
-                    symbols[
-                        Math.floor(Math.random() * symbols.length)
+                nameElements.forEach(function (element) {
+
+                    if (element) {
+                        element.textContent =
+                            CONFIG.name;
+                    }
+
+                });
+
+
+                /* =================================================
+                   PAGE NAVIGATION
+                ================================================== */
+
+                function showPage(number) {
+
+                    if (
+                        number < 1 ||
+                        number > totalPages
+                    ) {
+                        return;
+                    }
+
+
+                    const pages =
+                        document.querySelectorAll(
+                            ".page"
+                        );
+
+                    const dots =
+                        document.querySelectorAll(
+                            ".dot"
+                        );
+
+
+                    pages.forEach(function (page) {
+
+                        page.classList.remove(
+                            "active"
+                        );
+
+                    });
+
+
+                    const targetPage =
+                        document.getElementById(
+                            "page" + number
+                        );
+
+
+                    if (targetPage) {
+
+                        targetPage.classList.add(
+                            "active"
+                        );
+
+                    }
+
+
+                    dots.forEach(
+                        function (dot, index) {
+
+                            dot.classList.toggle(
+                                "active",
+                                index === number - 1
+                            );
+
+                        }
+                    );
+
+
+                    currentPage = number;
+
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: "smooth"
+                    });
+
+
+                    createHearts(5);
+
+                }
+
+
+                function nextPage() {
+
+                    if (
+                        currentPage <
+                        totalPages
+                    ) {
+
+                        showPage(
+                            currentPage + 1
+                        );
+
+                    }
+
+                }
+
+
+                /* =================================================
+                   MUSIC
+                ================================================== */
+
+                function playMusic() {
+
+                    if (!bgMusic) {
+
+                        console.error(
+                            "Audio element #bgMusic was not found."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const playPromise =
+                        bgMusic.play();
+
+
+                    if (
+                        playPromise !== undefined
+                    ) {
+
+                        playPromise
+
+                            .then(function () {
+
+                                isPlaying = true;
+
+                                updateMusicButton();
+
+                                console.log(
+                                    "Music started successfully."
+                                );
+
+                            })
+
+                            .catch(function (error) {
+
+                                isPlaying = false;
+
+                                updateMusicButton();
+
+                                console.warn(
+                                    "Music could not start:",
+                                    error
+                                );
+
+                                console.warn(
+                                    "Check that ishq.mp3 exists and the file path is correct."
+                                );
+
+                            });
+
+                    }
+
+                }
+
+
+                function pauseMusic() {
+
+                    if (!bgMusic) {
+                        return;
+                    }
+
+
+                    bgMusic.pause();
+
+                    isPlaying = false;
+
+                    updateMusicButton();
+
+                }
+
+
+                function toggleMusic() {
+
+                    if (!bgMusic) {
+
+                        console.error(
+                            "bgMusic was not found."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (bgMusic.paused) {
+
+                        playMusic();
+
+                    } else {
+
+                        pauseMusic();
+
+                    }
+
+                }
+
+
+                function updateMusicButton() {
+
+                    if (musicText) {
+
+                        musicText.textContent =
+                            isPlaying
+                                ? "Pause Song"
+                                : "Play Song";
+
+                    }
+
+
+                    if (musicBtn) {
+
+                        musicBtn.classList.toggle(
+                            "playing",
+                            isPlaying
+                        );
+
+                    }
+
+                }
+
+
+                /* =================================================
+                   START SURPRISE
+                ================================================== */
+
+                function startSurprise() {
+
+                    console.log(
+                        "Open surprise clicked."
+                    );
+
+
+                    // Navigation happens first.
+                    // Therefore the website still works
+                    // even if the audio file has a problem.
+
+                    showPage(2);
+
+
+                    // Then attempt music.
+
+                    playMusic();
+
+                }
+
+
+                /* =================================================
+                   CANDLE
+                ================================================== */
+
+                function toggleCandle() {
+
+                    if (!candle) {
+                        return;
+                    }
+
+
+                    candle.classList.toggle(
+                        "off"
+                    );
+
+
+                    const candleIsOff =
+                        candle.classList.contains(
+                            "off"
+                        );
+
+
+                    if (candleIsOff) {
+
+                        if (wishText) {
+
+                            wishText.textContent =
+                                "Wish made. ✨ May it come true.";
+
+                        }
+
+                        createHearts(20);
+
+                    } else {
+
+                        if (wishText) {
+
+                            wishText.textContent =
+                                "Tap the candle to make your wish. 🕯️";
+
+                        }
+
+                    }
+
+                }
+
+
+                /* =================================================
+                   GIFT
+                ================================================== */
+
+                function openGift() {
+
+                    if (!gift || !secret) {
+                        return;
+                    }
+
+
+                    secret.classList.toggle(
+                        "show"
+                    );
+
+
+                    const isOpen =
+                        secret.classList.contains(
+                            "show"
+                        );
+
+
+                    if (isOpen) {
+
+                        const paragraph =
+                            secret.querySelector(
+                                "p"
+                            );
+
+
+                        if (paragraph) {
+
+                            paragraph.textContent =
+                                CONFIG.secretMessage;
+
+                        }
+
+
+                        createHearts(25);
+
+                    }
+
+                }
+
+
+                /* =================================================
+                   CELEBRATE
+                ================================================== */
+
+                function celebrate() {
+
+                    createHearts(40);
+
+
+                    if (celebrateText) {
+
+                        celebrateText.textContent =
+                            `Yay! Wishing you the happiest birthday ever, ${CONFIG.name}! 💖🎉`;
+
+                    }
+
+                }
+
+
+                /* =================================================
+                   FLOATING HEARTS
+                ================================================== */
+
+                function createHearts(
+                    amount = 10
+                ) {
+
+                    const symbols = [
+                        "💗",
+                        "💕",
+                        "💖",
+                        "💘",
+                        "🌸",
+                        "✨"
                     ];
 
-                heart.style.left =
-                    Math.random() * 100 + "vw";
 
-                heart.style.bottom = "-30px";
+                    for (
+                        let i = 0;
+                        i < amount;
+                        i++
+                    ) {
 
-                heart.style.fontSize =
-                    (15 + Math.random() * 25) + "px";
+                        setTimeout(
+                            function () {
 
-                heart.style.animationDuration =
-                    (3 + Math.random() * 3) + "s";
-
-                document.body.appendChild(heart);
-
-                setTimeout(() => {
-                    heart.remove();
-                }, 6000);
-
-            }, i * 100);
-        }
-    }
+                                const heart =
+                                    document.createElement(
+                                        "div"
+                                    );
 
 
-    // =========================
-    // INITIAL STATE
-    // =========================
-
-    showPage(1);
-
-    console.log("Birthday website initialized successfully.");
-
-});
-</script>
-
-Also change your audio element
-
-Replace:
-
-<audio id="bgMusic" loop preload="auto">
-    <source src="ishq.mp3" type="audio/mpeg">
-</audio>
+                                heart.className =
+                                    "heart";
 
 
-with:
-
-<audio id="bgMusic" loop preload="auto">
-    <source src="./ishq.mp3" type="audio/mpeg">
-</audio>
-
-
-And make sure your project looks like this:
-
-your-project/
-│
-├── index.html
-└── ishq.mp3
+                                heart.textContent =
+                                    symbols[
+                                        Math.floor(
+                                            Math.random() *
+                                            symbols.length
+                                        )
+                                    ];
 
 
-If the music is inside a folder, for example:
-
-your-project/
-├── index.html
-└── audio/
-    └── ishq.mp3
+                                heart.style.left =
+                                    Math.random() *
+                                    100 +
+                                    "vw";
 
 
-then use:
-
-<audio id="bgMusic" loop preload="auto">
-    <source src="./audio/ishq.mp3" type="audio/mpeg">
-</audio>
-
-One more important improvement
-
-I'd also recommend replacing your inline buttons:
-
-<button class="next-btn" onclick="startSurprise()">
+                                heart.style.fontSize =
+                                    (
+                                        15 +
+                                        Math.random() *
+                                        25
+                                    ) +
+                                    "px";
 
 
-and
-
-<button class="music-btn" id="musicBtn" onclick="toggleMusic()">
-
-
-with IDs:
-
-<button class="next-btn" id="startBtn">
-    Open the surprise ✨
-</button>
-
-<button class="music-btn" id="musicBtn">
-    🎵 <span id="musicText">Play Song</span>
-</button>
+                                heart.style.animationDuration =
+                                    (
+                                        3 +
+                                        Math.random() *
+                                        3
+                                    ) +
+                                    "s";
 
 
-Then add this inside DOMContentLoaded:
-
-const startBtn = document.getElementById("startBtn");
-
-if (startBtn) {
-    startBtn.addEventListener("click", startSurprise);
-}
-
-if (musicBtn) {
-    musicBtn.addEventListener("click", toggleMusic);
-}
+                                document.body.appendChild(
+                                    heart
+                                );
 
 
-This avoids problems caused by inline JavaScript handlers.
+                                setTimeout(
+                                    function () {
 
-Most importantly: if clicking "Open the surprise" literally does nothing, open your browser's Developer Console (F12 → Console) and look for a red error. If you paste that error here, I can pinpoint the exact problem.
+                                        heart.remove();
+
+                                    },
+                                    6500
+                                );
+
+
+                            },
+                            i * 80
+                        );
+
+                    }
+
+                }
+
+
+                /* =================================================
+                   RESTART
+                ================================================== */
+
+                function restart() {
+
+                    currentPage = 1;
+
+                    showPage(1);
+
+                    if (bgMusic) {
+
+                        bgMusic.pause();
+
+                        bgMusic.currentTime = 0;
+
+                    }
+
+                    isPlaying = false;
+
+                    updateMusicButton();
+
+                    if (secret) {
+
+                        secret.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                    if (candle) {
+
+                        candle.classList.remove(
+                            "off"
+                        );
+
+                    }
+
+                    if (wishText) {
+
+                        wishText.textContent =
+                            "Tap the candle to make your wish. 🕯️";
+
+                    }
+
+                    if (celebrateText) {
+
+                        celebrateText.textContent =
+                            "Because birthdays only happen once a year.";
+
+                    }
+
+                }
+
+
+                /* =================================================
+                   EVENT LISTENERS
+                ================================================== */
+
+                if (startBtn) {
+
+                    startBtn.addEventListener(
+                        "click",
+                        startSurprise
+                    );
+
+                }
+
+
+                if (musicBtn) {
+
+                    musicBtn.addEventListener(
+                        "click",
+                        toggleMusic
+                    );
+
+                }
+
+
+                if (candle) {
+
+                    candle.addEventListener(
+                        "click",
+                        toggleCandle
+                    );
+
+
+                    candle.addEventListener(
+                        "keydown",
+                        function (event) {
+
+                            if (
+                                event.key === "Enter" ||
+                                event.key === " "
+                            ) {
+
+                                event.preventDefault();
+
+                                toggleCandle();
+
+                            }
+
+                        }
+                    );
+
+                }
+
+
+                if (gift) {
+
+                    gift.addEventListener(
+                        "click",
+                        openGift
+                    );
+
+
+                    gift.addEventListener(
+                        "keydown",
+                        function (event) {
+
+                            if (
+                                event.key === "Enter" ||
+                                event.key === " "
+                            ) {
+
+                                event.preventDefault();
+
+                                openGift();
+
+                            }
+
+                        }
+                    );
+
+                }
+
+
+                if (celebrateBtn) {
+
+                    celebrateBtn.addEventListener(
+                        "click",
+                        celebrate
+                    );
+
+                }
+
+
+                if (restartBtn) {
+
+                    restartBtn.addEventListener(
+                        "click",
+                        restart
+                    );
+
+                }
+
+
+                /* =================================================
+                   NEXT BUTTONS
+                ================================================== */
+
+                const nextButtons = [
+
+                    "page2Next",
+                    "page3Next",
+                    "page4Next",
+                    "page5Next"
+
+                ];
+
+
+                nextButtons.forEach(function (id) {
+
+                    const button =
+                        document.getElementById(id);
+
+
+                    if (button) {
+
+                        button.addEventListener(
+                            "click",
+                            nextPage
+                        );
+
+                    }
+
+                });
+
+
+                /* =================================================
+                   INITIALIZE
+                ================================================== */
+
+                showPage(1);
+
+                updateMusicButton();
+
+                console.log(
+                    "Birthday website initialized successfully."
+                );
+
+            }
+        );
+    </script>
+
+</body>
+</html>
