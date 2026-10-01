@@ -41,6 +41,9 @@ body {
     display: none;
     position: relative;
     padding: 40px 20px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .page.active {
@@ -151,7 +154,6 @@ button {
 /* ---------- PAGE 1 ---------- */
 
 #page1 {
-    align-items: center;
     background:
         radial-gradient(circle at 20% 20%, #ffd8e5, transparent 35%),
         radial-gradient(circle at 80% 80%, #e7d5ff, transparent 35%),
@@ -207,10 +209,6 @@ button {
 
 /* ---------- PAGE 2 ---------- */
 
-#page2 {
-    align-items: center;
-}
-
 .section-title {
     font-size: clamp(45px, 8vw, 75px);
     color: var(--deep-pink);
@@ -232,10 +230,6 @@ button {
 }
 
 /* ---------- PAGE 3 ---------- */
-
-#page3 {
-    align-items: center;
-}
 
 .cake {
     position: relative;
@@ -281,6 +275,7 @@ button {
     left: 104px;
     bottom: 105px;
     border-radius: 5px;
+    cursor: pointer;
 }
 
 .flame {
@@ -311,10 +306,6 @@ button {
 }
 
 /* ---------- PAGE 4 ---------- */
-
-#page4 {
-    align-items: center;
-}
 
 .reasons {
     display: grid;
@@ -352,10 +343,6 @@ button {
 }
 
 /* ---------- PAGE 5 ---------- */
-
-#page5 {
-    align-items: center;
-}
 
 .gift {
     width: 150px;
@@ -447,10 +434,6 @@ button {
 
 /* ---------- PAGE 6 ---------- */
 
-#page6 {
-    align-items: center;
-}
-
 .letter {
     background:
         linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
@@ -480,7 +463,6 @@ button {
 /* ---------- PAGE 7 ---------- */
 
 #page7 {
-    align-items: center;
     background:
         radial-gradient(circle at 50% 50%, #ffe0eb, transparent 50%),
         #fff8fb;
@@ -577,9 +559,8 @@ button {
 <body>
 
 <!-- Background Audio Element -->
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop preload="auto">
     <source src="ishq.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
 </audio>
 
 <!-- Floating Music Control Button -->
@@ -602,305 +583,135 @@ button {
 
 
 <!-- ================= PAGE 1 ================= -->
-
 <section class="page active" id="page1">
-
     <div class="container">
-
         <div class="envelope"></div>
-
-        <div class="welcome script">
-            A little surprise...
-        </div>
-
-        <p class="intro">
-            Someone very special has a birthday today. 💗
-        </p>
-
-        <button class="next-btn" onclick="startSurprise()">
-            Open the surprise ✨
-        </button>
-
+        <div class="welcome script">A little surprise...</div>
+        <p class="intro">Someone very special has a birthday today. 💗</p>
+        <button class="next-btn" onclick="startSurprise()">Open the surprise ✨</button>
     </div>
-
 </section>
 
-
 <!-- ================= PAGE 2 ================= -->
-
 <section class="page" id="page2">
-
     <div class="container">
-
         <p class="small">THIS DAY IS ALL ABOUT YOU</p>
-
-        <h1 class="section-title script">
-            Happy Birthday
-        </h1>
-
-        <div class="name" id="nameDisplay">
-            ANJALI
-        </div>
-
+        <h1 class="section-title script">Happy Birthday</h1>
+        <div class="name" id="nameDisplay">ANJALI</div>
         <p class="subtitle">
             Today isn't just another day.
             It's the day the world got a little brighter because
             <span id="nameInline">you</span> came into it. 🌷
         </p>
-
-        <button class="next-btn" onclick="nextPage()">
-            There's more... 💕
-        </button>
-
+        <button class="next-btn" onclick="nextPage()">There's more... 💕</button>
     </div>
-
 </section>
 
-
 <!-- ================= PAGE 3 ================= -->
-
 <section class="page" id="page3">
-
     <div class="container">
-
         <p class="small">MAKE A WISH ✨</p>
-
-        <h1 class="section-title script">
-            One wish. One beautiful year.
-        </h1>
-
+        <h1 class="section-title script">One wish. One beautiful year.</h1>
         <div class="cake">
-
             <div class="cake-base"></div>
             <div class="cake-top"></div>
             <div class="cream"></div>
             <div class="candle" id="candle"></div>
             <div class="flame"></div>
-
         </div>
-
-        <p class="blow-text" id="wishText">
-            Tap the candle to make your wish. 🕯️
-        </p>
-
-        <button class="next-btn" onclick="nextPage()">
-            My birthday wishes 💐
-        </button>
-
+        <p class="blow-text" id="wishText">Tap the candle to make your wish. 🕯️</p>
+        <button class="next-btn" onclick="nextPage()">My birthday wishes 💐</button>
     </div>
-
 </section>
 
-
 <!-- ================= PAGE 4 ================= -->
-
 <section class="page" id="page4">
-
     <div class="container">
-
         <p class="small">A FEW THINGS WORTH CELEBRATING</p>
-
-        <h1 class="section-title script">
-            You deserve beautiful things.
-        </h1>
-
+        <h1 class="section-title script">You deserve beautiful things.</h1>
         <div class="reasons">
-
             <div class="reason">
                 <div class="emoji">🌸</div>
                 <h3>Happiness</h3>
-                <p>
-                    May your days be filled with genuine smiles
-                    and little moments that make you happy.
-                </p>
+                <p>May your days be filled with genuine smiles and little moments that make you happy.</p>
             </div>
-
             <div class="reason">
                 <div class="emoji">✨</div>
                 <h3>Dreams</h3>
-                <p>
-                    May the things you secretly wish for
-                    slowly become beautiful realities.
-                </p>
+                <p>May the things you secretly wish for slowly become beautiful realities.</p>
             </div>
-
             <div class="reason">
                 <div class="emoji">🦋</div>
                 <h3>New Memories</h3>
-                <p>
-                    May this year give you countless moments
-                    you'll want to remember forever.
-                </p>
+                <p>May this year give you countless moments you'll want to remember forever.</p>
             </div>
-
         </div>
-
-        <button class="next-btn" onclick="nextPage()">
-            Wait... there's a gift 🎁
-        </button>
-
+        <button class="next-btn" onclick="nextPage()">Wait... there's a gift 🎁</button>
     </div>
-
 </section>
 
-
 <!-- ================= PAGE 5 ================= -->
-
 <section class="page" id="page5">
-
     <div class="container">
-
         <p class="small">A LITTLE SECRET</p>
-
-        <h1 class="section-title script">
-            Someone left you a gift...
-        </h1>
-
+        <h1 class="section-title script">Someone left you a gift...</h1>
         <div class="gift" id="gift">
-
             <div class="bow">🎀</div>
             <div class="gift-lid"></div>
             <div class="gift-box"></div>
             <div class="ribbon-v"></div>
             <div class="ribbon-h"></div>
-
         </div>
-
-        <p class="small">
-            Tap the gift to open it.
-        </p>
-
+        <p class="small">Tap the gift to open it.</p>
         <div class="secret" id="secret">
-
             <h2>💌 A tiny secret</h2>
-
             <p style="margin-top:15px;line-height:1.8;">
-                Birthdays come once a year,
-                but people who make life a little brighter
-                deserve to be appreciated much more often.
+                Birthdays come once a year, but people who make life a little brighter deserve to be appreciated much more often.
                 <br><br>
-                So here's your reminder:
-                you are genuinely special,
-                and I hope you never forget that. 💗
+                So here's your reminder: you are genuinely special, and I hope you never forget that. 💗
             </p>
-
         </div>
-
-        <button class="next-btn" onclick="nextPage()">
-            One last thing...
-        </button>
-
+        <button class="next-btn" onclick="nextPage()">One last thing...</button>
     </div>
-
 </section>
-
 
 <!-- ================= PAGE 6 ================= -->
-
 <section class="page" id="page6">
-
     <div class="container">
-
         <p class="small">FROM THE HEART</p>
-
-        <h1 class="section-title script">
-            A little birthday letter
-        </h1>
-
+        <h1 class="section-title script">A little birthday letter</h1>
         <div class="letter">
-
-            <p>
-                Dear <strong id="letterName">you</strong>,
-            </p>
-
-            <p>
-                On your birthday, I just want to wish you
-                more than a simple "Happy Birthday."
-            </p>
-
-            <p>
-                I hope this new chapter of your life brings
-                you peaceful mornings, unexpected happiness,
-                beautiful opportunities, and people who genuinely
-                appreciate having you around.
-            </p>
-
-            <p>
-                Keep smiling, keep growing, keep being yourself,
-                and never be afraid to dream a little bigger.
-            </p>
-
-            <p>
-                May this year become one of those chapters
-                you'll look back on and smile about. 🌷
-            </p>
-
-            <div class="letter-sign">
-                With lots of good wishes 💕
-            </div>
-
+            <p>Dear <strong id="letterName">you</strong>,</p>
+            <p>On your birthday, I just want to wish you more than a simple "Happy Birthday."</p>
+            <p>I hope this new chapter of your life brings you peaceful mornings, unexpected happiness, beautiful opportunities, and people who genuinely appreciate having you around.</p>
+            <p>Keep smiling, keep growing, keep being yourself, and never be afraid to dream a little bigger.</p>
+            <p>May this year become one of those chapters you'll look back on and smile about. 🌷</p>
+            <div class="letter-sign">With lots of good wishes 💕</div>
         </div>
-
-        <button class="next-btn" onclick="nextPage()">
-            The final surprise ✨
-        </button>
-
+        <button class="next-btn" onclick="nextPage()">The final surprise ✨</button>
     </div>
-
 </section>
 
-
 <!-- ================= PAGE 7 ================= -->
-
 <section class="page" id="page7">
-
     <div class="container">
-
         <p class="small">AND FINALLY...</p>
-
-        <div class="final script">
-            Happy Birthday
-        </div>
-
-        <div class="final-name" id="finalName">
-            ANJALI
-        </div>
-
+        <div class="final script">Happy Birthday</div>
+        <div class="final-name" id="finalName">ANJALI</div>
         <p class="final-message">
-            May your smile stay bright,
-            your heart stay happy,
-            and your coming year be filled with
-            moments that are even more beautiful
-            than this little surprise. 💖
+            May your smile stay bright, your heart stay happy, and your coming year be filled with moments that are even more beautiful than this little surprise. 💖
         </p>
-
-        <button class="next-btn" onclick="celebrate()">
-            Celebrate! 🎉
-        </button>
-
-        <p id="celebrateText"
-           style="margin-top:25px;font-size:18px;">
-        </p>
-
+        <button class="next-btn" onclick="celebrate()">Celebrate! 🎉</button>
+        <p id="celebrateText" style="margin-top:25px;font-size:18px;"></p>
     </div>
-
 </section>
 
 
 <script>
-
-/* =====================================================
-   CUSTOMIZE THESE
-   ===================================================== */
-
 const CONFIG = {
     name: "ANJALI",
     secretMessage: "You are genuinely special, and I hope this new year of your life gives you countless reasons to smile. 💗"
 };
-
-/* =====================================================
-   PAGE SYSTEM & MUSIC (SAFE & BULLETPROOF)
-   ===================================================== */
 
 let currentPage = 1;
 const totalPages = 7;
@@ -909,15 +720,16 @@ const musicText = document.getElementById("musicText");
 let isPlaying = false;
 
 function startSurprise() {
-    // Attempt to play music, but guarantee page navigation ALWAYS happens
+    // Attempt to play music automatically on first click
     if (bgMusic) {
         bgMusic.play().then(() => {
             isPlaying = true;
             musicText.textContent = "Pause Song";
-        }).catch(e => {
-            console.log("Audio autoplay prevented or file loading:", e);
+        }).catch(err => {
+            console.log("Audio play blocked or file not found:", err);
         });
     }
+    // Guaranteed to advance page regardless of audio success/failure
     nextPage();
 }
 
@@ -932,7 +744,7 @@ function toggleMusic() {
             isPlaying = true;
             musicText.textContent = "Pause Song";
         }).catch(e => {
-            alert("Could not play song. Please verify your song file is named exactly 'ishq.mp3' in your repository.");
+            alert("Could not play song. Please check if your file is named strictly 'ishq.mp3' in your repository.");
         });
     }
 }
@@ -967,19 +779,13 @@ function nextPage() {
     }
 }
 
-/* =====================================================
-   PERSONALIZE PAGE
-   ===================================================== */
-
+// Personalization
 document.getElementById("nameDisplay").textContent = CONFIG.name;
 document.getElementById("nameInline").textContent = CONFIG.name;
 document.getElementById("letterName").textContent = CONFIG.name;
 document.getElementById("finalName").textContent = CONFIG.name;
 
-/* =====================================================
-   CANDLE
-   ===================================================== */
-
+// Candle interaction
 document.getElementById("candle").addEventListener("click", function () {
     this.classList.toggle("off");
     const wishText = document.getElementById("wishText");
@@ -990,4 +796,44 @@ document.getElementById("candle").addEventListener("click", function () {
     } else {
         wishText.textContent = "Tap the candle to make your wish. 🕯️";
     }
+});
+
+// Gift interaction
+document.getElementById("gift").addEventListener("click", function () {
+    const secret = document.getElementById("secret");
+    secret.classList.toggle("show");
+
+    if (secret.classList.contains("show")) {
+        secret.querySelector("p").textContent = CONFIG.secretMessage;
+        createHearts(25);
+    }
+});
+
+function celebrate() {
+    createHearts(40);
+    document.getElementById("celebrateText").textContent = "Yay! Wishing you the happiest birthday ever, Anjali! 💖🎉";
 }
+
+function createHearts(amount = 10) {
+    for (let i = 0; i < amount; i++) {
+        setTimeout(() => {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            const symbols = ["💗", "💕", "💖", "💘", "🌸", "✨"];
+            heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.bottom = "-30px";
+            heart.style.fontSize = (15 + Math.random() * 25) + "px";
+            heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }, i * 100);
+    }
+}
+</script>
+
+</body>
+</html>
