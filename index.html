@@ -2131,6 +2131,213 @@ button:focus-visible,
     }
 }
 
+
+
+/* =========================================================
+   FINAL MOBILE PHOTO CONTAIN FIX — V2
+   Keeps every photo completely inside the phone viewport.
+   No horizontal overflow, no intrinsic-width expansion,
+   and no transition zoom that can crop the image.
+========================================================= */
+
+.carousel-wrap,
+.carousel-wrap > div,
+.carousel-stage {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.carousel-wrap > div {
+    width: 100%;
+}
+
+.carousel-stage {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.carousel-stage img {
+    box-sizing: border-box;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.carousel-message {
+    box-sizing: border-box;
+    max-width: 86%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+@media (max-width: 760px) {
+    .carousel-wrap {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        grid-template-columns: 1fr;
+    }
+
+    .carousel-wrap > div {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .carousel-stage {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        height: min(56svh, 430px);
+        min-height: 0;
+        max-height: calc(100svh - 245px);
+        padding: 8px;
+        overflow: hidden;
+    }
+
+    .carousel-stage img,
+    .carousel-stage.is-changing img {
+        display: block;
+        width: auto !important;
+        height: auto !important;
+        max-width: calc(100% - 16px) !important;
+        max-height: calc(100% - 16px) !important;
+        object-fit: contain !important;
+        transform-origin: center center;
+    }
+
+    /* Mobile transitions fade/slide only — never enlarge the photo. */
+    .carousel-stage.fx-0.is-changing img {
+        animation: mobileSafeZoom .72s ease;
+    }
+
+    .carousel-stage.fx-1.is-changing img {
+        animation: mobileSafeSlideLeft .72s ease;
+    }
+
+    .carousel-stage.fx-2.is-changing img {
+        animation: mobileSafeSlideRight .72s ease;
+    }
+
+    .carousel-stage.fx-3.is-changing img {
+        animation: mobileSafeFloat .72s ease;
+    }
+
+    .carousel-stage.fx-4.is-changing img {
+        animation: mobileSafeRotate .72s ease;
+    }
+
+    .carousel-stage.fx-5.is-changing img {
+        animation: mobileSafeBlur .72s ease;
+    }
+
+    .carousel-stage.fx-6.is-changing img {
+        animation: mobileSafeWipe .72s ease;
+    }
+
+    .carousel-stage.fx-7.is-changing img {
+        animation: mobileSafePulse .72s ease;
+    }
+
+    @keyframes mobileSafeZoom {
+        0% { opacity: 0; transform: scale(1); filter: blur(4px); }
+        100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    @keyframes mobileSafeSlideLeft {
+        0% { opacity: 0; transform: translateX(14px); filter: blur(2px); }
+        100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+    }
+
+    @keyframes mobileSafeSlideRight {
+        0% { opacity: 0; transform: translateX(-14px); filter: blur(2px); }
+        100% { opacity: 1; transform: translateX(0); filter: blur(0); }
+    }
+
+    @keyframes mobileSafeFloat {
+        0% { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+        100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
+
+    @keyframes mobileSafeRotate {
+        0% { opacity: 0; transform: rotate(0); filter: blur(2px); }
+        100% { opacity: 1; transform: rotate(0); filter: blur(0); }
+    }
+
+    @keyframes mobileSafeBlur {
+        0% { opacity: 0; transform: scale(1); filter: blur(7px); }
+        100% { opacity: 1; transform: scale(1); filter: blur(0); }
+    }
+
+    @keyframes mobileSafeWipe {
+        0% { opacity: 0; clip-path: inset(0 18% 0 0 round 18px); }
+        100% { opacity: 1; clip-path: inset(0 0 0 0 round 18px); }
+    }
+
+    @keyframes mobileSafePulse {
+        0% { opacity: 0; transform: scale(1); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .carousel-message {
+        left: 5%;
+        right: 5%;
+        bottom: 24px;
+        width: 90%;
+        max-width: 90%;
+        padding: 13px 15px 14px;
+    }
+
+    .carousel-message-text {
+        font-size: clamp(.9rem, 4vw, 1.08rem);
+        line-height: 1.3;
+    }
+
+    .carousel-progress {
+        left: 5%;
+        right: 5%;
+    }
+
+    .memory-countdown {
+        left: 10px;
+        right: 10px;
+    }
+}
+
+/* Very narrow phones */
+@media (max-width: 390px) {
+    .photo-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .carousel-stage {
+        height: min(54svh, 390px);
+        max-height: calc(100svh - 235px);
+        padding: 6px;
+    }
+
+    .carousel-stage img,
+    .carousel-stage.is-changing img {
+        max-width: calc(100% - 12px) !important;
+        max-height: calc(100% - 12px) !important;
+    }
+
+    .carousel-message {
+        left: 4%;
+        right: 4%;
+        width: 92%;
+        max-width: 92%;
+        bottom: 20px;
+        padding: 11px 13px 12px;
+    }
+
+    .carousel-message-text {
+        font-size: .92rem;
+    }
+}
+
 </style>
 </head>
 
