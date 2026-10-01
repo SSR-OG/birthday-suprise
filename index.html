@@ -1,839 +1,400 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Little Birthday Surprise 💖</title>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Great+Vibes&display=swap');
+    // =========================
+    // CONFIG
+    // =========================
 
-:root {
-    --pink: #ff5c8a;
-    --deep-pink: #d6336c;
-    --purple: #9b5de5;
-    --cream: #fff8fb;
-    --dark: #321b2b;
-}
+    const CONFIG = {
+        name: "ANJALI",
+        secretMessage:
+            "You are genuinely special, and I hope this new year of your life gives you countless reasons to smile. 💗"
+    };
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    let currentPage = 1;
+    const totalPages = 7;
 
-html {
-    scroll-behavior: smooth;
-}
+    const bgMusic = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicBtn");
+    const musicText = document.getElementById("musicText");
 
-body {
-    font-family: "DM Sans", sans-serif;
-    background: #fff8fb;
-    color: var(--dark);
-    overflow-x: hidden;
-}
+    let isPlaying = false;
 
-/* ---------- GLOBAL ---------- */
 
-.page {
-    min-height: 100vh;
-    width: 100%;
-    display: none;
-    position: relative;
-    padding: 40px 20px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
+    // =========================
+    // PERSONALIZATION
+    // =========================
 
-.page.active {
-    display: flex;
-    animation: pageIn 0.7s ease;
-}
+    const nameDisplay = document.getElementById("nameDisplay");
+    const nameInline = document.getElementById("nameInline");
+    const letterName = document.getElementById("letterName");
+    const finalName = document.getElementById("finalName");
 
-@keyframes pageIn {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+    if (nameDisplay) nameDisplay.textContent = CONFIG.name;
+    if (nameInline) nameInline.textContent = CONFIG.name;
+    if (letterName) letterName.textContent = CONFIG.name;
+    if (finalName) finalName.textContent = CONFIG.name;
 
-.container {
-    width: min(900px, 100%);
-    margin: auto;
-    text-align: center;
-}
 
-.script {
-    font-family: "Great Vibes", cursive;
-}
+    // =========================
+    // PAGE NAVIGATION
+    // =========================
 
-.small {
-    font-size: 14px;
-    opacity: .7;
-}
+    function showPage(number) {
 
-button {
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-}
+        if (number < 1 || number > totalPages) {
+            return;
+        }
 
-/* ---------- BACKGROUND ---------- */
+        const pages = document.querySelectorAll(".page");
+        const dots = document.querySelectorAll(".dot");
 
-.bg-orb {
-    position: fixed;
-    width: 250px;
-    height: 250px;
-    border-radius: 50%;
-    filter: blur(70px);
-    opacity: .35;
-    pointer-events: none;
-    z-index: -1;
-}
+        pages.forEach(page => {
+            page.classList.remove("active");
+        });
 
-.orb1 {
-    background: #ff9ebd;
-    top: -80px;
-    left: -80px;
-}
+        const targetPage = document.getElementById("page" + number);
 
-.orb2 {
-    background: #c7a1ff;
-    right: -80px;
-    bottom: -80px;
-}
+        if (targetPage) {
+            targetPage.classList.add("active");
+        }
 
-/* ---------- MUSIC TOGGLE BUTTON ---------- */
+        dots.forEach((dot, index) => {
+            dot.classList.toggle("active", index === number - 1);
+        });
 
-.music-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: white;
-    border: 2px solid var(--pink);
-    color: var(--deep-pink);
-    padding: 10px 18px;
-    border-radius: 50px;
-    font-weight: 600;
-    box-shadow: 0 5px 20px rgba(214,51,108,.2);
-    z-index: 100;
-    transition: .2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+        currentPage = number;
 
-.music-btn:hover {
-    transform: scale(1.05);
-    background: #fff0f5;
-}
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
 
-/* ---------- BUTTON ---------- */
-
-.next-btn {
-    margin-top: 35px;
-    padding: 14px 27px;
-    border-radius: 50px;
-    color: white;
-    background: linear-gradient(135deg, var(--pink), var(--purple));
-    font-size: 16px;
-    font-weight: 700;
-    box-shadow: 0 12px 30px rgba(214,51,108,.25);
-    transition: .25s;
-}
-
-.next-btn:hover {
-    transform: translateY(-3px) scale(1.03);
-}
-
-/* ---------- PAGE 1 ---------- */
-
-#page1 {
-    background:
-        radial-gradient(circle at 20% 20%, #ffd8e5, transparent 35%),
-        radial-gradient(circle at 80% 80%, #e7d5ff, transparent 35%),
-        var(--cream);
-}
-
-.envelope {
-    width: 130px;
-    height: 100px;
-    margin: 0 auto 30px;
-    background: linear-gradient(135deg, #ff6f9c, #c94d7b);
-    border-radius: 12px;
-    position: relative;
-    box-shadow: 0 20px 45px rgba(201,77,123,.25);
-    animation: float 3s ease-in-out infinite;
-}
-
-.envelope::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: #ff83a9;
-    clip-path: polygon(0 0, 50% 55%, 100% 0);
-    border-radius: 12px 12px 0 0;
-}
-
-.envelope::after {
-    content: "💌";
-    position: absolute;
-    font-size: 38px;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -20%);
-}
-
-@keyframes float {
-    50% {
-        transform: translateY(-12px) rotate(2deg);
-    }
-}
-
-.welcome {
-    font-size: clamp(45px, 9vw, 90px);
-    line-height: 1;
-    color: var(--deep-pink);
-    margin-bottom: 15px;
-}
-
-.intro {
-    font-size: clamp(18px, 3vw, 25px);
-    color: #654455;
-}
-
-/* ---------- PAGE 2 ---------- */
-
-.section-title {
-    font-size: clamp(45px, 8vw, 75px);
-    color: var(--deep-pink);
-    margin-bottom: 10px;
-}
-
-.name {
-    font-size: clamp(50px, 10vw, 95px);
-    color: #8b42a9;
-    line-height: 1;
-}
-
-.subtitle {
-    max-width: 650px;
-    margin: 20px auto;
-    font-size: 19px;
-    line-height: 1.7;
-    color: #694c5d;
-}
-
-/* ---------- PAGE 3 ---------- */
-
-.cake {
-    position: relative;
-    width: 220px;
-    height: 180px;
-    margin: 40px auto;
-}
-
-.cake-base {
-    position: absolute;
-    bottom: 0;
-    width: 220px;
-    height: 105px;
-    background: linear-gradient(#ff9fba, #ff729b);
-    border-radius: 15px 15px 25px 25px;
-    box-shadow: 0 20px 30px rgba(255,92,138,.25);
-}
-
-.cake-top {
-    position: absolute;
-    width: 220px;
-    height: 35px;
-    bottom: 75px;
-    border-radius: 50%;
-    background: #ffd6e3;
-}
-
-.cream {
-    position: absolute;
-    width: 220px;
-    height: 50px;
-    bottom: 60px;
-    background: #fff;
-    border-radius: 50%;
-    opacity: .9;
-}
-
-.candle {
-    position: absolute;
-    width: 12px;
-    height: 55px;
-    background: #fff;
-    left: 104px;
-    bottom: 105px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.flame {
-    position: absolute;
-    width: 18px;
-    height: 25px;
-    background: #ffb000;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    left: 101px;
-    bottom: 152px;
-    animation: flame 1s infinite alternate;
-}
-
-@keyframes flame {
-    to {
-        transform: rotate(-45deg) scale(1.15);
-    }
-}
-
-.candle.off + .flame {
-    display: none;
-}
-
-.blow-text {
-    font-size: 18px;
-    margin-bottom: 15px;
-}
-
-/* ---------- PAGE 4 ---------- */
-
-.reasons {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-    margin-top: 35px;
-}
-
-.reason {
-    background: rgba(255,255,255,.75);
-    border: 1px solid #ffd7e5;
-    padding: 28px 18px;
-    border-radius: 22px;
-    transition: .3s;
-    box-shadow: 0 10px 30px rgba(100,50,80,.06);
-}
-
-.reason:hover {
-    transform: translateY(-8px);
-}
-
-.reason .emoji {
-    font-size: 38px;
-    margin-bottom: 12px;
-}
-
-.reason h3 {
-    margin-bottom: 8px;
-    color: #a13d6d;
-}
-
-.reason p {
-    line-height: 1.5;
-    color: #755969;
-}
-
-/* ---------- PAGE 5 ---------- */
-
-.gift {
-    width: 150px;
-    height: 130px;
-    margin: 45px auto;
-    position: relative;
-    cursor: pointer;
-}
-
-.gift-box {
-    position: absolute;
-    bottom: 0;
-    width: 150px;
-    height: 100px;
-    background: linear-gradient(135deg,#ff6696,#d83f76);
-    border-radius: 10px;
-}
-
-.gift-lid {
-    position: absolute;
-    width: 165px;
-    height: 35px;
-    left: -7px;
-    top: 15px;
-    background: #ff86ad;
-    border-radius: 8px;
-}
-
-.ribbon-v {
-    position: absolute;
-    width: 25px;
-    height: 115px;
-    left: 63px;
-    top: 15px;
-    background: #ffd2e0;
-}
-
-.ribbon-h {
-    position: absolute;
-    width: 165px;
-    height: 22px;
-    left: -7px;
-    top: 22px;
-    background: #ffd2e0;
-}
-
-.bow {
-    position: absolute;
-    top: -15px;
-    left: 53px;
-    font-size: 50px;
-}
-
-.gift:hover {
-    animation: shake .5s;
-}
-
-@keyframes shake {
-    25% { transform: rotate(4deg); }
-    50% { transform: rotate(-4deg); }
-    75% { transform: rotate(3deg); }
-}
-
-.secret {
-    display: none;
-    max-width: 600px;
-    margin: 20px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 25px;
-    box-shadow: 0 15px 40px rgba(100,50,80,.12);
-    animation: pop .5s ease;
-}
-
-.secret.show {
-    display: block;
-}
-
-@keyframes pop {
-    from {
-        opacity: 0;
-        transform: scale(.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* ---------- PAGE 6 ---------- */
-
-.letter {
-    background:
-        linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95)),
-        repeating-linear-gradient(
-            transparent,
-            transparent 31px,
-            #ffdce8 32px
-        );
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 20px 50px rgba(80,40,60,.12);
-    text-align: left;
-    line-height: 2;
-    font-size: 17px;
-}
-
-.letter-sign {
-    text-align: right;
-    margin-top: 25px;
-    font-family: "Great Vibes", cursive;
-    font-size: 32px;
-    color: var(--deep-pink);
-}
-
-/* ---------- PAGE 7 ---------- */
-
-#page7 {
-    background:
-        radial-gradient(circle at 50% 50%, #ffe0eb, transparent 50%),
-        #fff8fb;
-}
-
-.final {
-    font-size: clamp(55px, 11vw, 105px);
-    color: var(--deep-pink);
-    line-height: 1;
-}
-
-.final-name {
-    font-family: "Great Vibes", cursive;
-    font-size: clamp(65px, 13vw, 125px);
-    color: #8b42a9;
-}
-
-.final-message {
-    font-size: 21px;
-    line-height: 1.7;
-    max-width: 650px;
-    margin: 25px auto;
-}
-
-/* ---------- HEARTS ---------- */
-
-.heart {
-    position: fixed;
-    pointer-events: none;
-    animation: rise 4s linear forwards;
-    z-index: 10;
-}
-
-@keyframes rise {
-    0% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-100vh) rotate(360deg) scale(1.5);
-    }
-}
-
-/* ---------- PROGRESS ---------- */
-
-.progress {
-    position: fixed;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 7px;
-    z-index: 20;
-}
-
-.dot {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #e9c6d3;
-    transition: .3s;
-}
-
-.dot.active {
-    width: 25px;
-    border-radius: 10px;
-    background: var(--pink);
-}
-
-/* ---------- RESPONSIVE ---------- */
-
-@media(max-width: 650px) {
-    .reasons {
-        grid-template-columns: 1fr;
+        createHearts(5);
     }
 
-    .reason {
-        padding: 22px;
+
+    function nextPage() {
+        if (currentPage < totalPages) {
+            showPage(currentPage + 1);
+        }
     }
 
-    .letter {
-        padding: 25px;
-        font-size: 16px;
+
+    // Make functions available to buttons
+    window.nextPage = nextPage;
+
+
+    // =========================
+    // OPEN SURPRISE
+    // =========================
+
+    window.startSurprise = function () {
+
+        console.log("Open surprise clicked");
+
+        // Go to page 2 FIRST.
+        // This guarantees navigation even if audio fails.
+        nextPage();
+
+        // Then try to start the music.
+        playMusic();
+    };
+
+
+    // =========================
+    // MUSIC
+    // =========================
+
+    function playMusic() {
+
+        if (!bgMusic) {
+            console.error("Audio element was not found.");
+            return;
+        }
+
+        bgMusic.play()
+            .then(() => {
+
+                isPlaying = true;
+
+                if (musicText) {
+                    musicText.textContent = "Pause Song";
+                }
+
+                if (musicBtn) {
+                    musicBtn.classList.add("playing");
+                }
+
+                console.log("Music started.");
+
+            })
+            .catch(error => {
+
+                isPlaying = false;
+
+                console.error("Music could not be played:", error);
+
+                if (musicText) {
+                    musicText.textContent = "Play Song";
+                }
+
+                // Do not use alert here.
+                // The website still works even if the music file is missing.
+            });
     }
 
-    .page {
-        padding: 60px 18px 35px;
+
+    function pauseMusic() {
+
+        if (!bgMusic) return;
+
+        bgMusic.pause();
+
+        isPlaying = false;
+
+        if (musicText) {
+            musicText.textContent = "Play Song";
+        }
+
+        if (musicBtn) {
+            musicBtn.classList.remove("playing");
+        }
     }
-}
-</style>
-</head>
 
-<body>
 
-<!-- Background Audio Element -->
+    window.toggleMusic = function () {
+
+        console.log("Music button clicked");
+
+        if (!bgMusic) {
+            console.error("bgMusic element not found.");
+            return;
+        }
+
+        if (isPlaying) {
+            pauseMusic();
+        } else {
+            playMusic();
+        }
+    };
+
+
+    // =========================
+    // CANDLE
+    // =========================
+
+    const candle = document.getElementById("candle");
+    const wishText = document.getElementById("wishText");
+
+    if (candle) {
+
+        candle.addEventListener("click", function () {
+
+            this.classList.toggle("off");
+
+            if (this.classList.contains("off")) {
+
+                if (wishText) {
+                    wishText.textContent =
+                        "Wish made. ✨ May it come true.";
+                }
+
+                createHearts(20);
+
+            } else {
+
+                if (wishText) {
+                    wishText.textContent =
+                        "Tap the candle to make your wish. 🕯️";
+                }
+            }
+        });
+    }
+
+
+    // =========================
+    // GIFT
+    // =========================
+
+    const gift = document.getElementById("gift");
+    const secret = document.getElementById("secret");
+
+    if (gift && secret) {
+
+        gift.addEventListener("click", function () {
+
+            secret.classList.toggle("show");
+
+            if (secret.classList.contains("show")) {
+
+                const secretParagraph = secret.querySelector("p");
+
+                if (secretParagraph) {
+                    secretParagraph.textContent =
+                        CONFIG.secretMessage;
+                }
+
+                createHearts(25);
+            }
+        });
+    }
+
+
+    // =========================
+    // CELEBRATE
+    // =========================
+
+    window.celebrate = function () {
+
+        createHearts(40);
+
+        const celebrateText =
+            document.getElementById("celebrateText");
+
+        if (celebrateText) {
+
+            celebrateText.textContent =
+                `Yay! Wishing you the happiest birthday ever, ${CONFIG.name}! 💖🎉`;
+        }
+    };
+
+
+    // =========================
+    // FLOATING HEARTS
+    // =========================
+
+    function createHearts(amount = 10) {
+
+        for (let i = 0; i < amount; i++) {
+
+            setTimeout(() => {
+
+                const heart = document.createElement("div");
+
+                heart.className = "heart";
+
+                const symbols = [
+                    "💗",
+                    "💕",
+                    "💖",
+                    "💘",
+                    "🌸",
+                    "✨"
+                ];
+
+                heart.textContent =
+                    symbols[
+                        Math.floor(Math.random() * symbols.length)
+                    ];
+
+                heart.style.left =
+                    Math.random() * 100 + "vw";
+
+                heart.style.bottom = "-30px";
+
+                heart.style.fontSize =
+                    (15 + Math.random() * 25) + "px";
+
+                heart.style.animationDuration =
+                    (3 + Math.random() * 3) + "s";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+
+            }, i * 100);
+        }
+    }
+
+
+    // =========================
+    // INITIAL STATE
+    // =========================
+
+    showPage(1);
+
+    console.log("Birthday website initialized successfully.");
+
+});
+</script>
+
+Also change your audio element
+
+Replace:
+
 <audio id="bgMusic" loop preload="auto">
     <source src="ishq.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Floating Music Control Button -->
+
+with:
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="./ishq.mp3" type="audio/mpeg">
+</audio>
+
+
+And make sure your project looks like this:
+
+your-project/
+│
+├── index.html
+└── ishq.mp3
+
+
+If the music is inside a folder, for example:
+
+your-project/
+├── index.html
+└── audio/
+    └── ishq.mp3
+
+
+then use:
+
+<audio id="bgMusic" loop preload="auto">
+    <source src="./audio/ishq.mp3" type="audio/mpeg">
+</audio>
+
+One more important improvement
+
+I'd also recommend replacing your inline buttons:
+
+<button class="next-btn" onclick="startSurprise()">
+
+
+and
+
 <button class="music-btn" id="musicBtn" onclick="toggleMusic()">
+
+
+with IDs:
+
+<button class="next-btn" id="startBtn">
+    Open the surprise ✨
+</button>
+
+<button class="music-btn" id="musicBtn">
     🎵 <span id="musicText">Play Song</span>
 </button>
 
-<div class="bg-orb orb1"></div>
-<div class="bg-orb orb2"></div>
 
-<div class="progress">
-    <span class="dot active"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-    <span class="dot"></span>
-</div>
+Then add this inside DOMContentLoaded:
 
+const startBtn = document.getElementById("startBtn");
 
-<!-- ================= PAGE 1 ================= -->
-<section class="page active" id="page1">
-    <div class="container">
-        <div class="envelope"></div>
-        <div class="welcome script">A little surprise...</div>
-        <p class="intro">Someone very special has a birthday today. 💗</p>
-        <button class="next-btn" onclick="startSurprise()">Open the surprise ✨</button>
-    </div>
-</section>
-
-<!-- ================= PAGE 2 ================= -->
-<section class="page" id="page2">
-    <div class="container">
-        <p class="small">THIS DAY IS ALL ABOUT YOU</p>
-        <h1 class="section-title script">Happy Birthday</h1>
-        <div class="name" id="nameDisplay">ANJALI</div>
-        <p class="subtitle">
-            Today isn't just another day.
-            It's the day the world got a little brighter because
-            <span id="nameInline">you</span> came into it. 🌷
-        </p>
-        <button class="next-btn" onclick="nextPage()">There's more... 💕</button>
-    </div>
-</section>
-
-<!-- ================= PAGE 3 ================= -->
-<section class="page" id="page3">
-    <div class="container">
-        <p class="small">MAKE A WISH ✨</p>
-        <h1 class="section-title script">One wish. One beautiful year.</h1>
-        <div class="cake">
-            <div class="cake-base"></div>
-            <div class="cake-top"></div>
-            <div class="cream"></div>
-            <div class="candle" id="candle"></div>
-            <div class="flame"></div>
-        </div>
-        <p class="blow-text" id="wishText">Tap the candle to make your wish. 🕯️</p>
-        <button class="next-btn" onclick="nextPage()">My birthday wishes 💐</button>
-    </div>
-</section>
-
-<!-- ================= PAGE 4 ================= -->
-<section class="page" id="page4">
-    <div class="container">
-        <p class="small">A FEW THINGS WORTH CELEBRATING</p>
-        <h1 class="section-title script">You deserve beautiful things.</h1>
-        <div class="reasons">
-            <div class="reason">
-                <div class="emoji">🌸</div>
-                <h3>Happiness</h3>
-                <p>May your days be filled with genuine smiles and little moments that make you happy.</p>
-            </div>
-            <div class="reason">
-                <div class="emoji">✨</div>
-                <h3>Dreams</h3>
-                <p>May the things you secretly wish for slowly become beautiful realities.</p>
-            </div>
-            <div class="reason">
-                <div class="emoji">🦋</div>
-                <h3>New Memories</h3>
-                <p>May this year give you countless moments you'll want to remember forever.</p>
-            </div>
-        </div>
-        <button class="next-btn" onclick="nextPage()">Wait... there's a gift 🎁</button>
-    </div>
-</section>
-
-<!-- ================= PAGE 5 ================= -->
-<section class="page" id="page5">
-    <div class="container">
-        <p class="small">A LITTLE SECRET</p>
-        <h1 class="section-title script">Someone left you a gift...</h1>
-        <div class="gift" id="gift">
-            <div class="bow">🎀</div>
-            <div class="gift-lid"></div>
-            <div class="gift-box"></div>
-            <div class="ribbon-v"></div>
-            <div class="ribbon-h"></div>
-        </div>
-        <p class="small">Tap the gift to open it.</p>
-        <div class="secret" id="secret">
-            <h2>💌 A tiny secret</h2>
-            <p style="margin-top:15px;line-height:1.8;">
-                Birthdays come once a year, but people who make life a little brighter deserve to be appreciated much more often.
-                <br><br>
-                So here's your reminder: you are genuinely special, and I hope you never forget that. 💗
-            </p>
-        </div>
-        <button class="next-btn" onclick="nextPage()">One last thing...</button>
-    </div>
-</section>
-
-<!-- ================= PAGE 6 ================= -->
-<section class="page" id="page6">
-    <div class="container">
-        <p class="small">FROM THE HEART</p>
-        <h1 class="section-title script">A little birthday letter</h1>
-        <div class="letter">
-            <p>Dear <strong id="letterName">you</strong>,</p>
-            <p>On your birthday, I just want to wish you more than a simple "Happy Birthday."</p>
-            <p>I hope this new chapter of your life brings you peaceful mornings, unexpected happiness, beautiful opportunities, and people who genuinely appreciate having you around.</p>
-            <p>Keep smiling, keep growing, keep being yourself, and never be afraid to dream a little bigger.</p>
-            <p>May this year become one of those chapters you'll look back on and smile about. 🌷</p>
-            <div class="letter-sign">With lots of good wishes 💕</div>
-        </div>
-        <button class="next-btn" onclick="nextPage()">The final surprise ✨</button>
-    </div>
-</section>
-
-<!-- ================= PAGE 7 ================= -->
-<section class="page" id="page7">
-    <div class="container">
-        <p class="small">AND FINALLY...</p>
-        <div class="final script">Happy Birthday</div>
-        <div class="final-name" id="finalName">ANJALI</div>
-        <p class="final-message">
-            May your smile stay bright, your heart stay happy, and your coming year be filled with moments that are even more beautiful than this little surprise. 💖
-        </p>
-        <button class="next-btn" onclick="celebrate()">Celebrate! 🎉</button>
-        <p id="celebrateText" style="margin-top:25px;font-size:18px;"></p>
-    </div>
-</section>
-
-
-<script>
-const CONFIG = {
-    name: "ANJALI",
-    secretMessage: "You are genuinely special, and I hope this new year of your life gives you countless reasons to smile. 💗"
-};
-
-let currentPage = 1;
-const totalPages = 7;
-const bgMusic = document.getElementById("bgMusic");
-const musicText = document.getElementById("musicText");
-let isPlaying = false;
-
-function startSurprise() {
-    // Attempt to play music automatically on first click
-    if (bgMusic) {
-        bgMusic.play().then(() => {
-            isPlaying = true;
-            musicText.textContent = "Pause Song";
-        }).catch(err => {
-            console.log("Audio play blocked or file not found:", err);
-        });
-    }
-    // Guaranteed to advance page regardless of audio success/failure
-    nextPage();
+if (startBtn) {
+    startBtn.addEventListener("click", startSurprise);
 }
 
-function toggleMusic() {
-    if (!bgMusic) return;
-    if (isPlaying) {
-        bgMusic.pause();
-        isPlaying = false;
-        musicText.textContent = "Play Song";
-    } else {
-        bgMusic.play().then(() => {
-            isPlaying = true;
-            musicText.textContent = "Pause Song";
-        }).catch(e => {
-            alert("Could not play song. Please check if your file is named strictly 'ishq.mp3' in your repository.");
-        });
-    }
+if (musicBtn) {
+    musicBtn.addEventListener("click", toggleMusic);
 }
 
-function showPage(number) {
-    document.querySelectorAll(".page").forEach(page => {
-        page.classList.remove("active");
-    });
 
-    const targetPage = document.getElementById("page" + number);
-    if (targetPage) {
-        targetPage.classList.add("active");
-    }
+This avoids problems caused by inline JavaScript handlers.
 
-    document.querySelectorAll(".dot").forEach((dot, index) => {
-        dot.classList.toggle("active", index === number - 1);
-    });
-
-    currentPage = number;
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-    createHearts(5);
-}
-
-function nextPage() {
-    if (currentPage < totalPages) {
-        showPage(currentPage + 1);
-    }
-}
-
-// Personalization
-document.getElementById("nameDisplay").textContent = CONFIG.name;
-document.getElementById("nameInline").textContent = CONFIG.name;
-document.getElementById("letterName").textContent = CONFIG.name;
-document.getElementById("finalName").textContent = CONFIG.name;
-
-// Candle interaction
-document.getElementById("candle").addEventListener("click", function () {
-    this.classList.toggle("off");
-    const wishText = document.getElementById("wishText");
-
-    if (this.classList.contains("off")) {
-        wishText.textContent = "Wish made. ✨ May it come true.";
-        createHearts(20);
-    } else {
-        wishText.textContent = "Tap the candle to make your wish. 🕯️";
-    }
-});
-
-// Gift interaction
-document.getElementById("gift").addEventListener("click", function () {
-    const secret = document.getElementById("secret");
-    secret.classList.toggle("show");
-
-    if (secret.classList.contains("show")) {
-        secret.querySelector("p").textContent = CONFIG.secretMessage;
-        createHearts(25);
-    }
-});
-
-function celebrate() {
-    createHearts(40);
-    document.getElementById("celebrateText").textContent = "Yay! Wishing you the happiest birthday ever, Anjali! 💖🎉";
-}
-
-function createHearts(amount = 10) {
-    for (let i = 0; i < amount; i++) {
-        setTimeout(() => {
-            const heart = document.createElement("div");
-            heart.className = "heart";
-            const symbols = ["💗", "💕", "💖", "💘", "🌸", "✨"];
-            heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-            heart.style.left = Math.random() * 100 + "vw";
-            heart.style.bottom = "-30px";
-            heart.style.fontSize = (15 + Math.random() * 25) + "px";
-            heart.style.animationDuration = (3 + Math.random() * 3) + "s";
-            document.body.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 4000);
-        }, i * 100);
-    }
-}
-</script>
-
-</body>
-</html>
+Most importantly: if clicking "Open the surprise" literally does nothing, open your browser's Developer Console (F12 → Console) and look for a red error. If you paste that error here, I can pinpoint the exact problem.
