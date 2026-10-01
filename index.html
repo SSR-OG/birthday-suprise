@@ -12,6 +12,15 @@
 
 <style>
 
+/* Elegant birthday typography */
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Serif+Display&family=Quicksand:wght@500;600;700&display=swap");
+
+:root {
+    --display-font: "DM Serif Display", "Cormorant Garamond", Georgia, serif;
+    --script-font: "Cormorant Garamond", Georgia, serif;
+    --cute-font: "Quicksand", "Segoe UI", sans-serif;
+}
+
 /* =========================================================
    RESET
 ========================================================= */
@@ -483,10 +492,7 @@ body {
 h1 {
     margin-bottom: 20px;
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+    font-family: var(--display-font);
 
     font-size:
         clamp(4rem, 12vw, 7.5rem);
@@ -505,10 +511,7 @@ h1 {
 h2 {
     margin-bottom: 20px;
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+    font-family: var(--display-font);
 
     font-size:
         clamp(2.3rem, 7vw, 4.2rem);
@@ -585,13 +588,10 @@ h3 {
 
     margin-top: 8px;
 
-    font-family:
-        Georgia,
-        "Times New Roman",
-        serif;
+    font-family: var(--script-font);
 
     font-size:
-        clamp(1.25rem, 3vw, 1.55rem);
+        clamp(1.28rem, 3vw, 1.62rem);
 
     line-height: 1.8;
 
@@ -1146,9 +1146,7 @@ h3 {
 .letter p {
     margin-bottom: 18px;
 
-    font-family:
-        Georgia,
-        serif;
+    font-family: var(--display-font);
 
     font-size: 1.02rem;
 
@@ -1210,6 +1208,54 @@ h3 {
     }
 }
 
+
+/* =========================================================
+   BIRTHDAY EMOJI RIBBON + CREDIT
+========================================================= */
+
+.birthday-emoji-ribbon {
+    max-width: 760px;
+    margin: -4px auto 20px;
+    padding: 7px 16px;
+    font-family: var(--cute-font);
+    font-size: clamp(1.05rem, 2.7vw, 1.35rem);
+    letter-spacing: 3px;
+    line-height: 1.7;
+    animation: emojiRibbon 4s ease-in-out infinite;
+    filter: drop-shadow(0 8px 18px rgba(185,54,109,0.10));
+}
+
+@keyframes emojiRibbon {
+    0%, 100% { transform: translateY(0) scale(1); opacity: .9; }
+    50% { transform: translateY(-5px) scale(1.025); opacity: 1; }
+}
+
+.credit {
+    margin-top: 24px;
+    font-family: var(--script-font);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: #b04b76;
+    opacity: .92;
+}
+
+.credit .sugar {
+    display: inline-block;
+    margin-left: 4px;
+    font-family: var(--display-font);
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #c23870;
+    text-shadow: 0 5px 18px rgba(194,56,112,.16);
+    animation: sugarGlow 2.2s ease-in-out infinite;
+}
+
+@keyframes sugarGlow {
+    0%, 100% { transform: rotate(-1deg) scale(1); }
+    50% { transform: rotate(1deg) scale(1.06); }
+}
 
 /* =========================================================
    FINAL
@@ -1665,6 +1711,99 @@ button:focus-visible,
 }
 
 /* =========================================================
+   AUTOMATIC MEMORY STORY — V3
+========================================================= */
+
+.auto-story-note {
+    margin: 10px auto 0;
+    padding: 10px 16px;
+    width: fit-content;
+    max-width: 92%;
+    border-radius: 999px;
+    color: #87586d;
+    background: rgba(255,255,255,.58);
+    border: 1px solid rgba(255,255,255,.82);
+    box-shadow: 0 8px 24px rgba(104,45,75,.08);
+    font-size: .82rem;
+    letter-spacing: .02em;
+}
+
+.memory-countdown {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 16px;
+    height: 4px;
+    border-radius: 99px;
+    overflow: hidden;
+    z-index: 8;
+    background: rgba(255,255,255,.28);
+    backdrop-filter: blur(5px);
+}
+
+.memory-countdown > span {
+    display: block;
+    width: 0%;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(255,255,255,.9);
+    box-shadow: 0 0 14px rgba(255,255,255,.9);
+}
+
+.carousel-stage.is-changing img {
+    will-change: transform, opacity, filter, clip-path;
+}
+
+.carousel-stage.fx-0.is-changing img { animation: memoryZoom 1.05s cubic-bezier(.2,.8,.2,1); }
+.carousel-stage.fx-1.is-changing img { animation: memoryDriftLeft 1.05s cubic-bezier(.2,.8,.2,1); }
+.carousel-stage.fx-2.is-changing img { animation: memoryDriftRight 1.05s cubic-bezier(.2,.8,.2,1); }
+.carousel-stage.fx-3.is-changing img { animation: memoryFloat 1.05s cubic-bezier(.2,.8,.2,1); }
+.carousel-stage.fx-4.is-changing img { animation: memoryRotate 1.05s cubic-bezier(.2,.8,.2,1); }
+.carousel-stage.fx-5.is-changing img { animation: memoryBlur 1.05s ease; }
+.carousel-stage.fx-6.is-changing img { animation: memoryWipe 1.05s cubic-bezier(.2,.8,.2,1); }
+.carousel-stage.fx-7.is-changing img { animation: memoryPulse 1.05s cubic-bezier(.2,.8,.2,1); }
+
+@keyframes memoryZoom {
+    0% { opacity: 0; transform: scale(1.12); filter: blur(7px) saturate(.75); }
+    45% { opacity: .72; }
+    100% { opacity: 1; transform: scale(1); filter: blur(0) saturate(1); }
+}
+@keyframes memoryDriftLeft {
+    0% { opacity: 0; transform: translateX(65px) scale(1.04); filter: blur(4px); }
+    100% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+@keyframes memoryDriftRight {
+    0% { opacity: 0; transform: translateX(-65px) scale(1.04); filter: blur(4px); }
+    100% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+}
+@keyframes memoryFloat {
+    0% { opacity: 0; transform: translateY(35px) scale(.97); filter: blur(5px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes memoryRotate {
+    0% { opacity: 0; transform: rotate(-2.5deg) scale(.96); filter: blur(4px); }
+    100% { opacity: 1; transform: rotate(0) scale(1); filter: blur(0); }
+}
+@keyframes memoryBlur {
+    0% { opacity: 0; transform: scale(1.03); filter: blur(13px) brightness(1.12); }
+    55% { opacity: .75; filter: blur(3px) brightness(1.04); }
+    100% { opacity: 1; transform: scale(1); filter: blur(0) brightness(1); }
+}
+@keyframes memoryWipe {
+    0% { opacity: 0; clip-path: inset(0 100% 0 0 round 22px); transform: scale(1.03); }
+    100% { opacity: 1; clip-path: inset(0 0 0 0 round 22px); transform: scale(1); }
+}
+@keyframes memoryPulse {
+    0% { opacity: 0; transform: scale(.9); filter: saturate(.7); }
+    55% { opacity: 1; transform: scale(1.025); }
+    100% { opacity: 1; transform: scale(1); filter: saturate(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .carousel-stage.is-changing img { animation: none !important; }
+}
+
+/* =========================================================
    PHOTO GALLERY ADD-ON
 ========================================================= */
 
@@ -2011,19 +2150,28 @@ button:focus-visible,
         A tiny little surprise for
     </div>
 
+    <div class="birthday-emoji-ribbon" aria-label="Birthday wishes">
+        🎂 ✨ 🎈 🌸 💗 🥳 🧁 🌷 🎁 💫 🦋 💕 🎀 ✨
+    </div>
+
     <h1>
         ANJALI
     </h1>
 
     <p class="cute-message">
 
-        Because some people deserve
+        🎂 Some people deserve
         <span class="highlight">
-            more than just a birthday wish...
+            more than just a birthday wish... ✨
         </span>
 
         they deserve a tiny world
-        made just for them. 💗
+        made just for them — full of
+        <span class="highlight">
+            laughter, flowers, hugs &amp; beautiful memories. 💗🌸🦋
+        </span>
+
+        So today, this little surprise is all yours. 🥳🎈🎁💕
 
     </p>
 
@@ -2034,7 +2182,7 @@ button:focus-visible,
             id="startBtn"
             type="button"
         >
-            Open My Surprise ✨
+            Open My Birthday Surprise ✨🎂
         </button>
 
     </div>
@@ -2307,7 +2455,7 @@ button:focus-visible,
     </div>
 
     <div class="buttons">
-        <button class="btn" id="page5Next" type="button">See them one by one ✨</button>
+        <div class="auto-story-note" id="galleryAutoNote">✨ The memories will unfold automatically…</div>
     </div>
 
 </section>
@@ -2333,6 +2481,7 @@ button:focus-visible,
         <div>
             <div class="carousel-stage" id="carouselStage">
                 <div class="carousel-glow"></div>
+        <div class="memory-countdown" aria-hidden="true"><span id="memoryCountdownBar"></span></div>
                 <img id="carouselImage" src="" alt="Birthday memory" loading="eager">
                 <div class="carousel-message" id="carouselMessage" aria-live="polite">
                     <span class="carousel-message-kicker">A little note</span>
@@ -2380,7 +2529,7 @@ button:focus-visible,
     </div>
 
     <div class="buttons">
-        <button class="btn" id="page6Next" type="button">Back to the birthday note 💌</button>
+        <div class="auto-story-note" id="memoryAutoNote">💗 Just watch — the next memory arrives on its own.</div>
     </div>
 
 </section>
@@ -2555,6 +2704,8 @@ button:focus-visible,
         </button>
 
     </div>
+
+    <div class="credit">A little birthday magic, made with 💗 by <span class="sugar">SUGAR ✨</span></div>
 
 </section>
 
@@ -2763,6 +2914,13 @@ function showPage(number) {
 
         startTypewriter();
 
+    }
+
+    if (number === 5) {
+        beginPhotoStory();
+    } else if (number !== 6) {
+        clearTimeout(galleryTransitionTimer);
+        if (memoryTimer) stopMemoryAutoPlay();
     }
 
 }
@@ -3543,8 +3701,6 @@ if (restartBtn) {
     "page2Next",
     "page3Next",
     "page4Next",
-    "page5Next",
-    "page6Next",
     "page7Next"
 ].forEach(id => {
 
@@ -3593,13 +3749,18 @@ const carouselStage = document.getElementById("carouselStage");
 const carouselMessage = document.getElementById("carouselMessage");
 const carouselMessageText = document.querySelector("#carouselMessage .carousel-message-text");
 const carouselProgressBar = document.getElementById("carouselProgressBar");
+const memoryCountdownBar = document.getElementById("memoryCountdownBar");
 const memoryPlay = document.getElementById("memoryPlay");
 const thumbButtons = document.querySelectorAll(".thumb");
 let carouselIndex = 0;
-let memoryPlaying = true;
+let memoryPlaying = false;
 let memoryTimer = null;
 let memoryStartedAt = 0;
-const MEMORY_INTERVAL = 5200;
+let memoryFrame = null;
+let galleryTransitionTimer = null;
+let photoStoryCompleted = false;
+const MEMORY_INTERVAL = 4300;
+const GALLERY_INTRO_DELAY = 2200;
 
 const photoMessages = [
     "A smile that makes ordinary moments feel special. 🌷",
@@ -3636,9 +3797,9 @@ function resetMemoryProgress() {
 function renderCarousel(index, withTransition = true) {
     carouselIndex = (index + galleryImages.length) % galleryImages.length;
     if (carouselStage && withTransition) {
-        carouselStage.classList.remove("is-changing", "fx-0", "fx-1", "fx-2", "fx-3");
+        carouselStage.classList.remove("is-changing", "fx-0", "fx-1", "fx-2", "fx-3", "fx-4", "fx-5", "fx-6", "fx-7");
         void carouselStage.offsetWidth;
-        carouselStage.classList.add("is-changing", `fx-${carouselIndex % 4}`);
+        carouselStage.classList.add("is-changing", `fx-${carouselIndex % 8}`);
         window.setTimeout(() => carouselStage.classList.remove("is-changing"), 720);
     }
 
@@ -3656,7 +3817,22 @@ function startMemoryAutoPlay() {
     clearInterval(memoryTimer);
     memoryPlaying = true;
     if (memoryPlay) memoryPlay.textContent = "⏸ Pause memories";
-    memoryTimer = setInterval(() => renderCarousel(carouselIndex + 1), MEMORY_INTERVAL);
+    memoryStartedAt = performance.now();
+    memoryTimer = setInterval(() => {
+        if (carouselIndex < galleryImages.length - 1) {
+            renderCarousel(carouselIndex + 1);
+        } else {
+            // Give the final photo its full viewing time, then continue automatically.
+            clearInterval(memoryTimer);
+            memoryTimer = null;
+            memoryPlaying = false;
+            photoStoryCompleted = true;
+            if (memoryPlay) memoryPlay.textContent = "✓ Memories complete";
+            setTimeout(() => {
+                if (currentPage === 6) showPage(7);
+            }, 650);
+        }
+    }, MEMORY_INTERVAL);
 }
 
 function stopMemoryAutoPlay() {
@@ -3669,6 +3845,25 @@ function stopMemoryAutoPlay() {
 function toggleMemoryAutoPlay() {
     if (memoryPlaying) stopMemoryAutoPlay();
     else startMemoryAutoPlay();
+}
+
+function beginPhotoStory() {
+    clearTimeout(galleryTransitionTimer);
+    clearInterval(memoryTimer);
+    photoStoryCompleted = false;
+    carouselIndex = 0;
+    renderCarousel(0, false);
+    stopMemoryAutoPlay();
+    memoryPlaying = false;
+    if (memoryPlay) memoryPlay.textContent = "▶ Play memories";
+    // Page 5 is now only a very short cinematic intro.
+    galleryTransitionTimer = setTimeout(() => {
+        if (currentPage === 5) {
+            showPage(6);
+            renderCarousel(0, false);
+            setTimeout(startMemoryAutoPlay, 120);
+        }
+    }, GALLERY_INTRO_DELAY);
 }
 
 document.querySelectorAll(".photo-card").forEach(card => {
@@ -3689,18 +3884,25 @@ photoLightbox?.addEventListener("click", event => {
 });
 
 carouselStage?.addEventListener("mouseenter", () => {
-    if (memoryPlaying) clearInterval(memoryTimer);
+    if (memoryPlaying) {
+        clearInterval(memoryTimer);
+        memoryTimer = null;
+    }
 });
 carouselStage?.addEventListener("mouseleave", () => {
-    if (memoryPlaying) startMemoryAutoPlay();
+    if (memoryPlaying && !memoryTimer) startMemoryAutoPlay();
 });
 
 function updateMemoryProgress() {
-    if (!carouselProgressBar || !memoryPlaying) return;
+    if (!memoryPlaying) {
+        memoryFrame = requestAnimationFrame(updateMemoryProgress);
+        return;
+    }
     const elapsed = performance.now() - memoryStartedAt;
     const percent = Math.min(100, (elapsed / MEMORY_INTERVAL) * 100);
-    carouselProgressBar.style.width = `${percent}%`;
-    requestAnimationFrame(updateMemoryProgress);
+    if (carouselProgressBar) carouselProgressBar.style.width = `${percent}%`;
+    if (memoryCountdownBar) memoryCountdownBar.style.width = `${percent}%`;
+    memoryFrame = requestAnimationFrame(updateMemoryProgress);
 }
 
 document.addEventListener("keydown", event => {
@@ -3721,7 +3923,6 @@ document.addEventListener("keydown", event => {
 });
 
 renderCarousel(0, false);
-startMemoryAutoPlay();
 updateMemoryProgress();
 
 
