@@ -2051,6 +2051,86 @@ button:focus-visible,
     .photo-page { padding-left: 20px; padding-right: 20px; }
 }
 
+
+/* =========================================================
+   MOBILE PHOTO FIT FIX — keep every memory fully visible
+========================================================= */
+@media (max-width: 520px) {
+    .carousel-wrap {
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .carousel-stage {
+        width: 100%;
+        height: min(56svh, 430px);
+        min-height: 0;
+        max-height: calc(100svh - 245px);
+        padding: 8px;
+        overflow: visible;
+        box-sizing: border-box;
+    }
+
+    .carousel-stage img,
+    .carousel-stage.is-changing img {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        box-sizing: border-box;
+        transform-origin: center center;
+    }
+
+    /* Keep the cinematic movement, but never zoom an image outside the phone frame. */
+    .carousel-stage.fx-0.is-changing img { animation-name: mobileMemoryZoom; }
+    .carousel-stage.fx-1.is-changing img { animation-name: mobileMemoryDriftLeft; }
+    .carousel-stage.fx-2.is-changing img { animation-name: mobileMemoryDriftRight; }
+    .carousel-stage.fx-3.is-changing img { animation-name: mobileMemoryFloat; }
+    .carousel-stage.fx-4.is-changing img { animation-name: mobileMemoryRotate; }
+    .carousel-stage.fx-5.is-changing img { animation-name: mobileMemoryBlur; }
+    .carousel-stage.fx-6.is-changing img { animation-name: mobileMemoryWipe; }
+    .carousel-stage.fx-7.is-changing img { animation-name: mobileMemoryPulse; }
+
+    @keyframes mobileMemoryZoom {
+        0% { opacity: 0; transform: scale(1.015); filter: blur(5px) saturate(.82); }
+        45% { opacity: .72; }
+        100% { opacity: 1; transform: scale(1); filter: blur(0) saturate(1); }
+    }
+    @keyframes mobileMemoryDriftLeft {
+        0% { opacity: 0; transform: translateX(18px) scale(1.005); filter: blur(3px); }
+        100% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+    }
+    @keyframes mobileMemoryDriftRight {
+        0% { opacity: 0; transform: translateX(-18px) scale(1.005); filter: blur(3px); }
+        100% { opacity: 1; transform: translateX(0) scale(1); filter: blur(0); }
+    }
+    @keyframes mobileMemoryFloat {
+        0% { opacity: 0; transform: translateY(14px) scale(.995); filter: blur(3px); }
+        100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    @keyframes mobileMemoryRotate {
+        0% { opacity: 0; transform: rotate(-1deg) scale(.995); filter: blur(3px); }
+        100% { opacity: 1; transform: rotate(0) scale(1); filter: blur(0); }
+    }
+    @keyframes mobileMemoryBlur {
+        0% { opacity: 0; transform: scale(1.005); filter: blur(8px) brightness(1.08); }
+        55% { opacity: .75; filter: blur(2px) brightness(1.03); }
+        100% { opacity: 1; transform: scale(1); filter: blur(0) brightness(1); }
+    }
+    @keyframes mobileMemoryWipe {
+        0% { opacity: 0; clip-path: inset(0 35% 0 0 round 18px); transform: scale(1); }
+        100% { opacity: 1; clip-path: inset(0 0 0 0 round 18px); transform: scale(1); }
+    }
+    @keyframes mobileMemoryPulse {
+        0% { opacity: 0; transform: scale(.985); filter: saturate(.78); }
+        55% { opacity: 1; transform: scale(1.008); }
+        100% { opacity: 1; transform: scale(1); filter: saturate(1); }
+    }
+}
+
 </style>
 </head>
 
